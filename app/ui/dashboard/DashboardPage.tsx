@@ -14,6 +14,7 @@ import IncomeVsExpenseBarChart from '../report/incomeVsExpenseReport/IncomeVsExp
 import { useCategory } from '@/contexts/CategoryContext';
 import BudgetVsActualProcessBar from '../report/budgetVsActualReport/budgetVsActualProcessBar';
 import CategoryWiseExpensePieChart from '../report/caterogyWiseExpenseReport/CategoryWiseExpensePieChart';
+import { MdOutlineDashboard } from "react-icons/md";
 
 
 export default function DashboardPage() {
@@ -101,8 +102,7 @@ export default function DashboardPage() {
     return (
         <div className="container p-4 bg-orange-50">
             <div className="container mx-auto p-4">
-                <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-                
+               
                 <div className="grid grid-cols-2 gap-4 mb-5">
                     <div className="bg-white rounded-lg p-4 shadow-md">
                         <h2 className="text-xl font-bold mb-4">Budget Process {dateRange.year}</h2>

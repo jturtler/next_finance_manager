@@ -247,8 +247,8 @@ export const getAppHeaderSubTitle = ( subTitleKey: string ): string => {
         default:
             break;
     }
+
     return title;
-  
 }
 
 export const getErrMessage = (ex: any) => {
