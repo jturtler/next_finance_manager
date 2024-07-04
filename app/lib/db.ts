@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 // Define the MongoDB connection URI
 const MONGODB_URI = process.env.MONGODB_URI as string;
-        
+        console.log(" ========= MONGODB_URI : [" + MONGODB_URI + "]");
   console.log('===== MongoDB connecting ... ');
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI)
