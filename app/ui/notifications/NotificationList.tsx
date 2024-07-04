@@ -1,0 +1,1 @@
+/** Displays individual notification details. */
