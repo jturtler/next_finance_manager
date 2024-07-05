@@ -10,7 +10,7 @@ export default function BudgetReportPage({ data, periodType, startDate, endDate 
 	const reportDataList = data.data;
 
 	return (
-		<div className="container mx-auto p-4">
+		<div className="mx-auto p-4">
 			<h1 className="text-2xl font-bold mb-4">Budget vs Actual</h1>
 			
 			<div className="bg-white shadow-md rounded-lg p-4 mb-6">

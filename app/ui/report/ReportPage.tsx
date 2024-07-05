@@ -57,10 +57,6 @@ export default function ReportPage() {
 		else if( selectedReportType === Constant.REPORT_TYPE_CATEGORY_WISE_EXPENSE ) {
 			await generateCategoryWiseExpenseReport();
 		}
-		else if( selectedReportType === Constant.REPORT_TYPE_ANNUAL_FINANCIAL_SUMMARY ) {
-			await generateAnnualFinancialSummaryReport();
-		}
-
 	}
 
 	const generateIncomeVsReport = async() => {
@@ -130,25 +126,6 @@ export default function ReportPage() {
 			delete tempChartData.income;
 
 			setChartData(tempChartData);
-			handleUpdateChart();
-		}
-		else {
-			// Show error message here
-		}
-	}
-
-	const generateAnnualFinancialSummaryReport = async() => {
-		const urlPath = "annual-financial-summary";
-		const payload = {
-			userId: user!._id,
-			startDate: startDate!.toISOString(), 
-			endDate: endDate!.toISOString()
-		}
-		const tempChartData = await ReportService.retrieveAggregateData(urlPath, payload);
-
-		if (tempChartData.errMsg === undefined) {
-			const dataTranformed = ReportService.transformReportData_AnnualFinancialSummary(tempChartData);
-			setChartData(dataTranformed);
 			handleUpdateChart();
 		}
 		else {

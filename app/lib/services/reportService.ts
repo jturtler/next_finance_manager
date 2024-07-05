@@ -95,43 +95,6 @@ export const generateColor = (num: number) => {
 	return `rgb(${r}, ${g}, ${b})`;
 }
 
-export const transformReportData_CategoryMonthly = (reportData: JSONObject, startDate: Date, endDate: Date): JSONObject => {
-	var transformedData: JSONObject[] = [];
-
-	// Add empty items if missing and conver the "name" of items to readable names of months
-	const monthList = Utils.generateMonthList(startDate, endDate);
-	const data = reportData.data;
-
-	for (var i = 0; i < monthList.length; i++) {
-		const monthInfo = monthList[i];
-		const itemList = data.filter((item) => (item.month === monthInfo.month && item.year === monthInfo.year));
-
-		const totals = (itemList === undefined || itemList.length == 0) ? 0 : itemList[0].totals;
-
-		transformedData.push({
-			name: monthInfo.displayName,
-			...totals
-		})
-	}
-
-	console.log(transformedData);
-	return transformedData;
-}
-
-
-
-export const transformReportData_AnnualFinancialSummary = (reportData: JSONObject): JSONObject => {
-	return reportData.data.map((item) => {
-		const transformed = { year: item.year };
-		Object.keys(item.income).forEach((key) => {
-			transformed[`income_${key}`] = item.income[key];
-		});
-		Object.keys(item.expense).forEach((key) => {
-			transformed[`expense_${key}`] = item.expense[key];
-		});
-		return transformed;
-	});
-}
 
 export const generateRedColor = (index: number): string => {
 	const maxIndex = 255; // Maximum value for green and blue components

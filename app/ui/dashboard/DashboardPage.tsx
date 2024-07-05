@@ -15,6 +15,7 @@ import { useCategory } from '@/contexts/CategoryContext';
 import BudgetVsActualProcessBar from '../report/budgetVsActualReport/budgetVsActualProcessBar';
 import CategoryWiseExpensePieChart from '../report/caterogyWiseExpenseReport/CategoryWiseExpensePieChart';
 import { MdOutlineDashboard } from "react-icons/md";
+import IncomeVsExpenseReportDetails from '../report/incomeVsExpenseReport/IncomeVsExpenseReportDetails';
 
 
 export default function DashboardPage() {
@@ -100,8 +101,8 @@ export default function DashboardPage() {
     
 
     return (
-        <div className="container p-4 bg-orange-50">
-            <div className="container mx-auto p-4">
+        <div className="p-4 bg-orange-50">
+            <div className="mx-auto p-4">
                
                 <div className="grid grid-cols-2 gap-4 mb-5">
                     <div className="bg-white rounded-lg p-4 shadow-md">
@@ -122,8 +123,10 @@ export default function DashboardPage() {
                         periodType={Constant.REPORT_PERIOD_TYPE_MONTHLY} 
                         categoryExpenseList={expenseList}
                         categoryIncomeList={incomeList} />
-                    {/* <IncomeVsExpenseBarChart data={incomeVsExpenseChartData} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseList}
-					categoryIncomeList={incomeList} /> */}
+                </div>
+
+                <div>
+                    <IncomeVsExpenseReportDetails data={incomeVsExpenseChartData} />
                 </div>
             </div>
         </div>
