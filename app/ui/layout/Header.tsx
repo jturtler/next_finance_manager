@@ -37,6 +37,9 @@ export default function Header() {
 				break;
 			case Constant.UI_EXPENSE_PAGE:
 				icon = <GiMoneyStack className="ml-3" size={24} />;
+				break;
+			case Constant.UI_REPORT_PAGE:
+				icon = <FaChartBar className="ml-3" size={24} />;
 				break; 
 			default:
 				break;

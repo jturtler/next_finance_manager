@@ -55,7 +55,7 @@ export default function SlideBar({handleOnClose = () => {}}: {handleOnClose: () 
 	}
 
 	return (
-        <div className="w-64 min-w-[150px] h-screen bg-white p-1 absolute left-0 top-0" >
+        <div className="w-72 min-w-[150px] h-screen bg-white p-1 absolute left-0 top-0" >
             <div className="flex justify-end">
                 <div className="inline-block ml-2 hover:bg-blue-200 p-1 cursor-pointer font-bold " onClick={(e) => handleOnClose()}>X</div>
             </div>

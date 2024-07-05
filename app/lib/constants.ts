@@ -73,7 +73,6 @@ export const REPORT_TYPE_MONTHLY_REPORT = "monthlyReport";
 
 export const REPORT_TYPE_INCOME_VS_EXPENSE = "Income vs. Expense Report";
 export const REPORT_TYPE_BUDGET_VS_ACTUAL = "Budget vs. Actual Report";
-export const REPORT_TYPE_MONTHLY_EXPENSE = "Monthly Expense Report";
 export const REPORT_TYPE_ANNUAL_FINANCIAL_SUMMARY = "Annual Financial Summary";
 export const REPORT_TYPE_CATEGORY_WISE_EXPENSE = "Category-wise Expense Report";
 

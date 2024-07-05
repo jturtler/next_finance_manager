@@ -57,11 +57,6 @@ export default function ReportPage() {
 		else if( selectedReportType === Constant.REPORT_TYPE_CATEGORY_WISE_EXPENSE ) {
 			await generateCategoryWiseExpenseReport();
 		}
-		
-
-		else if( selectedReportType === Constant.REPORT_TYPE_MONTHLY_EXPENSE ) {
-			await generateMonthlyExpenseReport();
-		}
 		else if( selectedReportType === Constant.REPORT_TYPE_ANNUAL_FINANCIAL_SUMMARY ) {
 			await generateAnnualFinancialSummaryReport();
 		}
@@ -142,28 +137,6 @@ export default function ReportPage() {
 		}
 	}
 
-
-
-	const generateMonthlyExpenseReport = async() => {
-		const urlPath = "category-monthly-report";
-		const payload = {
-			userId: user!._id,
-			startDate: startDate!.toISOString(), 
-			endDate: endDate!.toISOString(),
-			dataFrom: "expense"
-		}
-		const tempChartData = await ReportService.retrieveAggregateData(urlPath, payload);
-
-		if (tempChartData.errMsg === undefined) {
-			const dataTranformed = ReportService.transformReportData_CategoryMonthly(tempChartData, startDate!, endDate!);
-			setChartData(dataTranformed);
-			handleUpdateChart();
-		}
-		else {
-			// Show error message here
-		}
-	}
-
 	const generateAnnualFinancialSummaryReport = async() => {
 		const urlPath = "annual-financial-summary";
 		const payload = {
@@ -185,7 +158,7 @@ export default function ReportPage() {
 
 	return (
 
-		<div className="container mx-auto p-4 min-h-[calc(100vh-100px)]">
+		<div className="mx-auto p-4 min-h-[calc(100vh-100px)]">
 			<h1 className="text-2xl font-bold mb-4">Reports</h1>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				<ReportTypeSelector
