@@ -8,34 +8,11 @@ import {
 	ResponsiveContainer,
 	Legend,
 	Sector,
+	XAxis,
 } from 'recharts';
 import * as ReportService from "@/lib/services/reportService";
 import * as Utils from "@/lib/utils";
 
-// // Sample aggregated data
-// const data = [
-//   {
-//     "totalExpense": 12573,
-//     "year": 2023,
-//     "categories": [
-//         {
-//             "category": "Miscellaneous",
-//             "totalAmount": 180,
-//             "transactions": [
-//                 {
-//                     "date": "2023-06-24T02:56:47.719Z",
-//                     "amount": 30,
-//                     "description": "Dish washing, detergent, soaps, ...."
-//                 },
-//                ...
-//                
-//             ]
-//         },
-//         ...
-//     ]
-// },
-//     ...
-// ];
 
 const renderActiveShape = (props: any) => {
 	const RADIAN = Math.PI / 180;
@@ -61,7 +38,7 @@ const renderActiveShape = (props: any) => {
 	const ex = mx + (cos >= 0 ? 1 : -1) * 22;
 	const ey = my;
 	const textAnchor = cos >= 0 ? "start" : "end";
-	console.log(payload);
+
 	return (
 		<g>
 			<text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
@@ -96,7 +73,7 @@ const renderActiveShape = (props: any) => {
 				y={ey}
 				textAnchor={textAnchor}
 				fill="#333"
-			>{`${payload.name} ${value}`}</text>
+			>{`${payload.category} ${value}`}</text>
 			<text
 				x={ex + (cos >= 0 ? 1 : -1) * 12}
 				y={ey}
@@ -112,63 +89,77 @@ const renderActiveShape = (props: any) => {
 
 
 export default function CategoryWiseExpensePieChart({ data }) {
-	// pieActiveIndex : [
-	//   {2023: 0},
-	//   {2024: 1}
-	// ]
-	const initPieActiveIndex = (): JSONObject => {
-		let indexJson = {};
-		for (let i = 0; i < data.length; i++) {
-			const year = data[i].year;
-			indexJson[year] = 0;
+	const [activeIndex, setActiveIndex] = useState(0);
+	const onPieEnter = useCallback(
+		(_, index) => {
+		setActiveIndex(index);
+		},
+		[setActiveIndex]
+	);
+
+	// transformedData = {
+	// 	"totalExpense": 1721,
+	// 	"categories": [
+	// 		{
+	// 			"category": "Education",
+	// 			"totalAmount": 500
+	// 		},
+	// 		...
+	// 	],
+	// 	"year": 2024
+	// }
+	const transformData = (dataList: JSONObject): JSONObject[] => {
+		let resultList: JSONObject[] = [];
+
+		for( let i=0; i<dataList.length; i++ ) {
+			const expenseDataList = dataList[i].expense;
+
+			if( expenseDataList != undefined ) {
+				for( let categoryName in expenseDataList ) {
+					const expenseVal = expenseDataList[categoryName];
+					const found = Utils.findItemFromList(resultList, categoryName, "category");
+					if( found ) {
+						found.totalAmount += expenseVal;
+					}
+					else {
+						resultList.push({ category: categoryName, totalAmount: expenseVal });
+					}
+				}
+			}
 		}
 
-		return indexJson;
-	}
-	const [pieActiveIndex, setPieActiveIndex] = useState<JSONObject>(initPieActiveIndex());
-
-
-	const setToolTip = (year, index) => {
-		const pieActiveIndexTemp = Utils.cloneJSONObject(pieActiveIndex);
-		pieActiveIndexTemp[year] = index;
-		setPieActiveIndex(pieActiveIndexTemp);
-	}
-	const transformData = (reportData: JSONObject): JSONObject[] => {
-		return reportData.categories.map((entry) => ({
-			name: entry.category,
-			value: entry.totalAmount,
-			year: reportData.year,
-		}));
+		return resultList;
+		// return reportData.categories.map((entry) => ({
+		// 	name: entry.category,
+		// 	value: entry.totalAmount,
+		// 	year: reportData.year,
+		// }));
 	};
 
+	const transformedData = transformData(data);
+	console.log(transformedData);
 	return (
 		<>
-			{data !== undefined && data.map((reportData, index) => {
-				const year = reportData.year;
-				const transformedData = transformData(reportData);
-				return (
-					<ResponsiveContainer key={`peChart_${year}_${index}`} width="100%" height={400}>
-						<PieChart>
-							<Pie
-								activeIndex={pieActiveIndex[year]}
-								activeShape={renderActiveShape}
-								data={transformedData}
-								cx="50%"
-								cy="50%"
-								innerRadius={70}
-								outerRadius={100}
-								fill={ReportService.expenseColors[index % ReportService.expenseColors.length]}
-								dataKey="value"
-								onMouseEnter={(_, idx) => setToolTip(year, idx)}
-							>
-								{transformedData.map((item, idx) =>
-									<Cell key={`cell-outer-${idx}`} fill={ReportService.expenseColors[idx % ReportService.expenseColors.length]} />
-								)}
-							</Pie>
-						</PieChart>
-					</ResponsiveContainer>
-				)
-			})}
+			<ResponsiveContainer width="100%" height={400}>
+				<PieChart>
+					<Pie
+						activeIndex={activeIndex}
+						activeShape={renderActiveShape}
+						data={transformedData}
+						cx="50%"
+						cy="50%"
+						innerRadius={70}
+						outerRadius={100}
+						dataKey="totalAmount"
+						onMouseEnter={onPieEnter}
+					>
+						{transformedData.map((item, idx) =>
+							<Cell key={`cell-outer-${idx}`} fill={ReportService.expenseColors[idx % ReportService.expenseColors.length]} />
+						)}
+					</Pie>
+
+				</PieChart>
+			</ResponsiveContainer>
 		</>
 	);
 }

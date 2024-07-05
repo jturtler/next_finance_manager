@@ -3,6 +3,7 @@ import { JSONObject } from '@/lib/definations';
 import * as Utils from "@/lib/utils";
 import { useCategory } from '@/contexts/CategoryContext';
 import CategoryWiseExpenseBarChart from './CategoryWiseExpenseBarChart';
+import CategoryWiseExpensePieChart from './CategoryWiseExpensePieChart';
 
 export default function CategoryWiseExpenseReportPage({ data, periodType, startDate, endDate }) {
 
@@ -34,13 +35,13 @@ export default function CategoryWiseExpenseReportPage({ data, periodType, startD
 			<h1 className="text-2xl font-bold mb-4">Category Wise Expense Report</h1>
 
 			<div className="bg-white shadow-md rounded-lg p-4 mb-6">
-				<h2 className="text-xl font-semibold mb-4">Income vs Expense</h2>
+				<h2 className="text-xl font-semibold mb-4">Category Wise Expense Chart</h2>
 				<CategoryWiseExpenseBarChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseList}
 					/>
 			</div>
 			<div className="bg-white shadow-md rounded-lg p-4 mb-6">
 				<h2 className="text-xl font-semibold mb-4">Expense Distribution</h2>
-				{/* <IncomeVsExpensePieChart data={reportDataList} /> */}
+				<CategoryWiseExpensePieChart data={reportDataList} />
 			</div>
 
 			<div className="bg-white shadow-md rounded-lg p-4">

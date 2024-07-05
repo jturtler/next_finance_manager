@@ -94,8 +94,6 @@ export default function ReportPage() {
 		const tempChartData = await ReportService.retrieveAggregateData(urlPath, payload);
 
 		if (tempChartData.errMsg === undefined) {
-			// const dataTranformed = ReportService.transformReportData_IncomeVSExpense(tempChartData, startDate!, endDate!);
-			// setChartData(dataTranformed);
 			setChartData(tempChartData);
 			handleUpdateChart();
 		}
@@ -115,7 +113,6 @@ export default function ReportPage() {
 		const tempChartData = await ReportService.retrieveAggregateData(urlPath, payload);
 
 		if (tempChartData.errMsg === undefined) {
-			// const dataTranformed = ReportService.transformReportData_BudgetVSActual( tempChartData );
 			setChartData(tempChartData);
 			handleUpdateChart();
 		}

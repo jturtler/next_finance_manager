@@ -13,12 +13,12 @@ import * as ReportService from "@/lib/services/reportService";
 import * as Utils from "@/lib/utils";
 
 
-const data1 = [
-	{ name: "Group A", value: 400 },
-	{ name: "Group B", value: 300 },
-	{ name: "Group C", value: 300 },
-	{ name: "Group D", value: 200 },
-  ];
+// const data1 = [
+// 	{ name: "Group A", value: 400 },
+// 	{ name: "Group B", value: 300 },
+// 	{ name: "Group C", value: 300 },
+// 	{ name: "Group D", value: 200 },
+//   ];
   
 
 export default function IncomeVsExpensePieChart({ data }) {

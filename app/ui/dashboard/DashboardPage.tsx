@@ -21,8 +21,7 @@ export default function DashboardPage() {
 
 	const { user } = useAuth();
     const { expenseList, incomeList } = useCategory();
-    const [requestToUpdate, setRequestToUpdate] = useState<number>(0);
-	const [incomeVsExpenseChartData, setIncomeVsExpenseChartData] = useState<JSONObject | JSONObject[]>({});
+	const [incomeVsExpenseChartData, setIncomeVsExpenseChartData] = useState<JSONObject | JSONObject[]>([]);
 	const [budgetVsActualChartData, setBudgetVsActualChartData] = useState<JSONObject | JSONObject[]>({});
 	const [categoryWiseExpenseChartData, setCategoryWiseExpenseChartData] = useState<JSONObject | JSONObject[]>([]);
 
@@ -30,8 +29,8 @@ export default function DashboardPage() {
         const curYear = new Date().getFullYear();
 
         return {
-            startDate: `${curYear}-01-01T00:00:00`,
-            endDate: `${curYear}-12-31T00:00:00`,
+            startDate: new Date(`${curYear}-01-01T00:00:00`),
+            endDate: new Date(`${curYear}-12-31T00:00:00`),
             year: curYear
         }
     }
@@ -53,9 +52,8 @@ export default function DashboardPage() {
 		}
 
 		const tempChartData = await ReportService.retrieveAggregateData(urlPath, payload);
-
 		if (tempChartData.errMsg === undefined) {
-			setIncomeVsExpenseChartData(tempChartData);
+			setIncomeVsExpenseChartData(tempChartData.data);
 		}
 		else {
 			// Show error message here
@@ -81,11 +79,12 @@ export default function DashboardPage() {
     }
 
     const generateCategoryWiseExpenseReport = async() => {
-		const urlPath = "category-wise-expense"; 
+		const urlPath = "income-vs-expense";
 		const payload = {
 			userId: user!._id,
 			startDate: dateRange.startDate, 
-			endDate: dateRange.endDate
+			endDate: dateRange.endDate,
+            periodType: Constant.REPORT_PERIOD_TYPE_MONTHLY
 		}
 		
 		const tempChartData = await ReportService.retrieveAggregateData(urlPath, payload);
@@ -98,6 +97,7 @@ export default function DashboardPage() {
     }
     
     const dateRange: JSONObject = getDateRange();
+    
 
     return (
         <div className="container p-4 bg-orange-50">
@@ -122,6 +122,8 @@ export default function DashboardPage() {
                         periodType={Constant.REPORT_PERIOD_TYPE_MONTHLY} 
                         categoryExpenseList={expenseList}
                         categoryIncomeList={incomeList} />
+                    {/* <IncomeVsExpenseBarChart data={incomeVsExpenseChartData} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseList}
+					categoryIncomeList={incomeList} /> */}
                 </div>
             </div>
         </div>

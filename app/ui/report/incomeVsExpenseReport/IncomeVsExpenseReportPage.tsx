@@ -2,11 +2,9 @@ import React from 'react';
 import { JSONObject } from '@/lib/definations';
 import * as Utils from "@/lib/utils";
 import IncomeVsExpenseBarChart from './IncomeVsExpenseBarChart';
-import IncomeVsExpensePieChart from './incomeVsExpensePieChart';
 import { useCategory } from '@/contexts/CategoryContext';
-
-// <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-//           <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+import IncomeVsExpenseAreaChart from './IncomeVsExpenseAreaChart';
+import * as Constant from "@/lib/constants";
 
 export default function IncomeVsExpenseReportPage({ data, periodType, startDate, endDate }) {
 
@@ -33,54 +31,27 @@ export default function IncomeVsExpenseReportPage({ data, periodType, startDate,
 	const reportDataList = (data.data).slice().sort(compareDates);
 	const { expenseList, incomeList }  = useCategory();
 
-	// // [
-	// // 	{name: "2004-1", totalIncome: 0, totalExpense": 343 },
-	// // 	...
-	// // ]
-	// const transformData = () => {
-	// 	let result: JSONObject[] = [];
-
-	// 	for( var i=0; i<reportDataList.length; i++ ) {
-	// 		const reportDate = reportDataList[i];
-	// 		let names: string[] = [];
-	// 		for( var key in reportDate.date) {
-	// 			names.push( reportDate.date[key] );
-	// 		}
-
-	// 		result.push({
-	// 			name: names.join(" - "),
-	// 			totalIncome: reportDate.totalIncome,
-	// 			totalExpense: reportDate.totalExpense
-	// 		});
-
-	// 	return result;
-	// }
-
-	// const transformedReportData = transformData();
-	// const years = reportDataList.map((item) => item.year);
 
 	return (
 		<div className="container mx-auto p-4">
 			<h1 className="text-2xl font-bold mb-4">Income vs Expense Report</h1>
-			{/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-				{reportDataList.map((reportData, index) => {
-					return (
-						<React.Fragment key={index}>
-							<div className="bg-white shadow-md rounded-lg p-4">
-								<h2 className="text-xl">Expense {reportData.year}: <span className="font-bold">{reportData.totalExpense}$</span></h2>
-							</div>
-						</React.Fragment>)
-				})}
-			</div> */}
 
-			<div className="bg-white shadow-md rounded-lg p-4 mb-6">
-				<h2 className="text-xl font-semibold mb-4">Income vs Expense</h2>
-				<IncomeVsExpenseBarChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseList}
-					categoryIncomeList={incomeList} />
-			</div>
-			<div className="bg-white shadow-md rounded-lg p-4 mb-6">
-				<h2 className="text-xl font-semibold mb-4">Income / Expense Distribution</h2>
-				{/* <IncomeVsExpensePieChart data={reportDataList} /> */}
+			<div className="grid grid-cols-2">
+				<div className="bg-white shadow-md rounded-lg p-4 mb-6">
+					<h2 className="text-xl font-semibold mb-4">Income vs Expense - Area Chart</h2>
+					<IncomeVsExpenseAreaChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} />
+				</div>
+
+				<div className="bg-white shadow-md rounded-lg p-4 mb-6">
+					<h2 className="text-xl font-semibold mb-4">Income vs Expense - Stacked Bar Chart</h2>
+					<IncomeVsExpenseBarChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseList}
+						categoryIncomeList={incomeList} />
+				</div>
+
+				<div className="bg-white shadow-md rounded-lg p-4 mb-6">
+					<h2 className="text-xl font-semibold mb-4">Income / Expense Distribution</h2>
+					{/* <IncomeVsExpensePieChart data={reportDataList} /> */}
+				</div>
 			</div>
 
 			<div className="bg-white shadow-md rounded-lg p-4">

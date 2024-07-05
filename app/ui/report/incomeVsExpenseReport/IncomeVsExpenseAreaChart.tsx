@@ -1,13 +1,12 @@
 import { JSONObject } from "@/lib/definations";
 import React from "react";
 import {
-	BarChart,
-	Bar,
+	AreaChart,
+	Area,
 	XAxis,
 	YAxis,
 	CartesianGrid,
 	Tooltip,
-	Legend,
 	ResponsiveContainer,
 } from "recharts";
 import * as ReportService from "@/lib/services/reportService";
@@ -31,12 +30,46 @@ import * as Utils from "@/lib/utils";
 // }
 // ...
 // ]
-export default function IncomeVsExpenseBarChart({ data, periodType, startDate, endDate, categoryExpenseList, categoryIncomeList }) {
 
-	// [
-	// 	{name: "2004-1", "income_Salary": 3000, "expense_Housing": 400 },
-	// 	...
-	// ]
+const getIntroOfArea = (label) => {
+
+	// if (label === "Jun 2004") {
+	//   return "Income";
+	// }
+	// else if (label === "Jul 2004") {
+	//   return "Expense";
+	// }
+	return label;
+  };
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+	if (active && payload && payload.length) {
+		let incomeDscrp = "";
+		let expenseDescript = "";
+		for( var i=0; i<payload.length; i++ ) {
+			if(payload[i].dataKey == "totalIncome") {
+				incomeDscrp = `Income: ${payload[i].payload.totalIncome}$`;
+			}
+			else if(payload[i].dataKey == "totalExpense") {
+				expenseDescript = `Expense: ${payload[i].payload.totalExpense}$`;
+			}
+		}
+
+		return (
+			<div className="custom-tooltip bg-white p-3 border border-gray-300">
+			<p className="label">{`${label}`}</p>
+			{/* <p className="intro">{getIntroOfArea(label)}</p> */}
+			<p className="desc text-green-600">{`${incomeDscrp}`}</p>
+			<p className="desc text-red-600">{`${expenseDescript}`}</p>
+			</div>
+		);
+	}
+  
+	return null;
+  };
+
+export default function IncomeVsExpenseAreaChart({ data, periodType, startDate, endDate }) {
+
 	const transformData = (): JSONObject[] => {
 
 		if (periodType == Constant.REPORT_PERIOD_TYPE_MONTHLY) {
@@ -62,19 +95,10 @@ export default function IncomeVsExpenseBarChart({ data, periodType, startDate, e
 
 			const found = data.filter((item) => (item.date.month === monthInfo.month && item.date.year === monthInfo.year));
 
-			let resultItem = { name: monthInfo.displayName };
+			let resultItem = { name: monthInfo.displayName, totalIncome: 0, totalExpense: 0 };
 			if (found.length > 0) {
-				if (found[0].income !== undefined) {
-					Object.keys(found[0].income).forEach((key) => {
-						resultItem[`Income: ${key}`] = found[0].income[key];
-					});
-				}
-
-				if (found[0].expense !== undefined) {
-					Object.keys(found[0].expense).forEach((key) => {
-						resultItem[`Expense: ${key}`] = found[0].expense[key];
-					});
-				}
+				resultItem["totalIncome"] = found[0].totalIncome;
+				resultItem["totalExpense"] = found[0].totalExpense;
 			}
 
 			result.push(resultItem);
@@ -91,19 +115,10 @@ export default function IncomeVsExpenseBarChart({ data, periodType, startDate, e
 			const quarterInfo = quarterList[i];
 			const found = data.filter((item) => (item.date.year === quarterInfo.year && item.date.quarter === quarterInfo.quarter));
 
-			let resultItem = { name: quarterInfo.displayName };
+			let resultItem = { name: quarterInfo.displayName, totalIncome: 0, totalExpense: 0 };
 			if (found.length > 0) {
-				if (found[0].income !== undefined) {
-					Object.keys(found[0].income).forEach((key) => {
-						resultItem[`Income: ${key}`] = found[0].income[key];
-					});
-				}
-
-				if (found[0].expense !== undefined) {
-					Object.keys(found[0].expense).forEach((key) => {
-						resultItem[`Expense: ${key}`] = found[0].expense[key];
-					});
-				}
+				resultItem["totalIncome"] = found[0].totalIncome;
+				resultItem["totalExpense"] = found[0].totalExpense;
 			}
 
 			result.push(resultItem);
@@ -119,19 +134,10 @@ export default function IncomeVsExpenseBarChart({ data, periodType, startDate, e
 			const yearInfo = yearList[i];
 			const found = data.filter((item) => (item.date.year === yearInfo.dataKey));
 
-			let resultItem = { name: yearInfo.displayName };
+			let resultItem = { name: yearInfo.displayName, totalIncome: 0, totalExpense: 0 };
 			if (found.length > 0) {
-				if (found[0].income !== undefined) {
-					Object.keys(found[0].income).forEach((key) => {
-						resultItem[`Income: ${key}`] = found[0].income[key];
-					});
-				}
-
-				if (found[0].expense !== undefined) {
-					Object.keys(found[0].expense).forEach((key) => {
-						resultItem[`Expense: ${key}`] = found[0].expense[key];
-					});
-				}
+				resultItem["totalIncome"] = found[0].totalIncome;
+				resultItem["totalExpense"] = found[0].totalExpense;
 			}
 
 			result.push(resultItem);
@@ -141,10 +147,13 @@ export default function IncomeVsExpenseBarChart({ data, periodType, startDate, e
 	}
 	
 	const transformedReportData = transformData();
+	
 
 	return (
 		<ResponsiveContainer width="100%" height={500}>
-			<BarChart
+			<AreaChart
+				width={500}
+				height={400}
 				data={transformedReportData}
 				margin={{
 					top: 5,
@@ -162,15 +171,24 @@ export default function IncomeVsExpenseBarChart({ data, periodType, startDate, e
 					tick={{ fontSize: 12 }}
 				/>
 				<YAxis />
-				<Tooltip />
+				<Tooltip content={<CustomTooltip />}/>
+				<Area
+					type="monotone"
+					dataKey="totalIncome"
+					stackId="1"
+					stroke="#8884d8"
+					fill={ReportService.incomeColors[0]} 
+				/>
+				<Area
+					type="monotone"
+					dataKey="totalExpense"
+					stackId="2"
+					stroke="#82ca9d"
+					fill={ReportService.expenseColors[0]} 
+				/>
 
-				{categoryExpenseList.map((category, index) => (
-					<Bar key={category.name} dataKey={`Expense: ${category.name}`} stackId="expense" fill={ReportService.expenseColors[index]} />
-				))}
-				{categoryIncomeList.map((category, index) => (
-					<Bar key={category.name} dataKey={`Income: ${category.name}`} stackId="income" fill={ReportService.incomeColors[index]} />
-				))}
-			</BarChart>
+				
+			</AreaChart>
 		</ResponsiveContainer>
 	);
 }
