@@ -36,7 +36,7 @@ export default function ExpenseList() {
 			if (endDate != null && item.date > Utils.formatDateObjToDbDate(endDate)) {
 				return false;
 			}
-			if( hasBudget && item.budgetId === undefined) {
+			if (hasBudget && item.budgetId === undefined) {
 				return false;
 			}
 
@@ -50,23 +50,7 @@ export default function ExpenseList() {
 
 	return (
 		<div className="w-full flex flex-col">
-			<div className="shadow-lg bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 px-5 py-3 ">
-				
-				{/* For date range */}
-				<CustomDatePicker
-					label="Start Date"
-					id="startDate"
-					selectedDate={startDate}
-					onDateChange={(date: Date | null) => { setStartDate(date) }}
-				/>
-
-				<CustomDatePicker
-					label="End Date"
-					id="endDate"
-					selectedDate={endDate}
-					onDateChange={(date: Date | null) => { setEndDate(date) }}
-				/>
-
+			<div className="shadow-lg bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2 px-5 py-3 ">
 				<div>
 					<label className="block text-gray-700 mb-2 text-sm font-bold" htmlFor='categoryFilter'>Category Filter</label>
 					<select
@@ -84,9 +68,24 @@ export default function ExpenseList() {
 					</select>
 				</div>
 
+				{/* For date range */}
+				<CustomDatePicker
+					label="Start Date"
+					id="startDate"
+					selectedDate={startDate}
+					onDateChange={(date: Date | null) => { setStartDate(date) }}
+				/>
+
+				<CustomDatePicker
+					label="End Date"
+					id="endDate"
+					selectedDate={endDate}
+					onDateChange={(date: Date | null) => { setEndDate(date) }}
+				/>
+
 				<div>
 					<label className="block text-gray-700 mb-2 text-sm font-bold" htmlFor="hasBudget">Has budget</label>
-					<input type="checkbox" checked={hasBudget} onChange={(e:  React.ChangeEvent<HTMLInputElement>) => setHasBudget(e.target.checked)}/>
+					<input type="checkbox" checked={hasBudget} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHasBudget(e.target.checked)} />
 				</div>
 
 				<div>
@@ -97,13 +96,14 @@ export default function ExpenseList() {
 				</div>
 
 				<div className="italic font-bold text-yellow-600">
-				{/* <label className="block text-gray-700 mb-2 text-sm font-bold">&nbsp;</label> */}
-				<span>There is {filteredList.length} item(s)</span></div>
+					{/* <label className="block text-gray-700 mb-2 text-sm font-bold">&nbsp;</label> */}
+					<span>There is {filteredList.length} item(s)</span></div>
 			</div>
 
 			<div className="flex-1 p-3 shadow-md">
-				<div className=" overflow-y-auto h-[calc(100vh-270px)]">
-					<div className="overflow-y-auto ">
+				{/* <div className=" overflow-y-auto h-[calc(100vh-270px)]"> */}
+				<div className=" overflow-y-auto ">
+					{/* <div className="overflow-y-auto"> */}
 						<table className="min-w-full border border-red-800">
 							<thead className="bg-red-200">
 								<tr className="border border-red-300">
@@ -123,7 +123,7 @@ export default function ExpenseList() {
 						</table>
 					</div>
 				</div>
-			</div>
+			{/* </div> */}
 		</div>
 	)
 }
