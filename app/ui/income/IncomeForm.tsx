@@ -18,7 +18,7 @@ import { useBudget } from '@/contexts/BudgetContext';
 export default function IncomeForm({ data = {} as JSONObject }) {
 
 	const { setSubPage } = useMainUi();
-	const { incomeList } = useCategory();
+	const { incomeCategoryList } = useCategory();
 	const { budgetList } = useBudget();
 	const { userId, processingStatus, setProcessingStatus, error, saveIncome, newIncome } = useIncome();
 
@@ -126,7 +126,7 @@ export default function IncomeForm({ data = {} as JSONObject }) {
 								className="w-full p-2 border border-gray-300 rounded"
 							>
 								<option value="">[Please select]</option>
-								{incomeList && incomeList?.map((category: JSONObject) => (
+								{incomeCategoryList && incomeCategoryList?.map((category: JSONObject) => (
 									<option key={category._id} value={category._id}>{category.name}</option>
 								))}
 							</select>
@@ -169,7 +169,7 @@ export default function IncomeForm({ data = {} as JSONObject }) {
 								{/* Only show 'Income' budgets here */}
 								{budgetList && budgetList?.map((budget: JSONObject) => {
 									
-									const category = Utils.findItemFromList(incomeList!, budget.categoryId, "_id");
+									const category = Utils.findItemFromList(incomeCategoryList!, budget.categoryId, "_id");
 									return ( category !== null ) 
 										? ( <option key={budget._id} value={budget._id}>{category.name}</option>)
 										: <></>;

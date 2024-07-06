@@ -15,7 +15,7 @@ import { useBudget } from '@/contexts/BudgetContext';
 export default function ExpenseForm({ data = {} as JSONObject }) {
 
 	const { setSubPage } = useMainUi();
-	const { expenseList } = useCategory();
+	const { expenseCategoryList } = useCategory();
 	const { budgetList } = useBudget();
 	const { userId, processingStatus, setProcessingStatus, error, saveExpense, newExpense } = useExpense();
 
@@ -123,7 +123,7 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 								className="w-full p-2 border border-gray-300 rounded"
 							>
 								<option value="">[Please select]</option>
-								{expenseList && expenseList?.map((category: JSONObject) => (
+								{expenseCategoryList && expenseCategoryList?.map((category: JSONObject) => (
 									<option key={category._id} value={category._id}>{category.name}</option>
 								))}
 							</select>
@@ -167,7 +167,7 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 								{/* Only show 'Expense' budgets here */}
 								{budgetList && budgetList?.map((budget: JSONObject) => {
 									
-									const category = Utils.findItemFromList(expenseList!, budget.categoryId, "_id");
+									const category = Utils.findItemFromList(expenseCategoryList!, budget.categoryId, "_id");
 									return ( category !== null ) 
 										? ( <option key={budget._id} value={budget._id}>{category.name}</option>)
 										: <></>;

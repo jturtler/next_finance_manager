@@ -8,8 +8,8 @@ import * as Constant from '@/lib/constants';
 
 interface CategoryContextProps {
 	categoryList: JSONObject[] | null;
-    incomeList: JSONObject[] | null;
-    expenseList: JSONObject[] | null;
+    incomeCategoryList: JSONObject[] | null;
+    expenseCategoryList: JSONObject[] | null;
     saveCategory: (category: JSONObject) => Promise<void>;
 	deleteCategory: (categoryId: string) => Promise<void>;
     error: string | null;
@@ -19,8 +19,8 @@ interface CategoryContextProps {
 
 const CategoryContext = createContext<CategoryContextProps>({
 	categoryList: null,
-    incomeList: null,
-    expenseList: null,
+    incomeCategoryList: null,
+    expenseCategoryList: null,
 	saveCategory: async(category: JSONObject) => {},
 	deleteCategory: async(categoryId: string) => {},
     error: null,
@@ -38,8 +38,8 @@ export const useCategory = (): CategoryContextProps => {
 
 export const CategoryProvider = ({ children }: { children: ReactNode }) => {
     const [categoryList, setCategoryList] = useState<JSONObject[] | null>(null);
-    const [incomeList, setIncomeList] = useState<JSONObject[] | null>(null);
-    const [expenseList, setExpenseList] = useState<JSONObject[] | null>(null);
+    const [incomeCategoryList, setIncomeList] = useState<JSONObject[] | null>(null);
+    const [expenseCategoryList, setExpenseList] = useState<JSONObject[] | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [processingStatus, setProcessingStatus] = useState("");
 	const [newCategory, setNewCategory] = useState<JSONObject | null>(null);
@@ -146,7 +146,7 @@ export const CategoryProvider = ({ children }: { children: ReactNode }) => {
     }
 
 	return (
-		<CategoryContext.Provider value={{ processingStatus, error, categoryList, incomeList, expenseList, saveCategory, deleteCategory, newCategory }}>
+		<CategoryContext.Provider value={{ processingStatus, error, categoryList, incomeCategoryList, expenseCategoryList, saveCategory, deleteCategory, newCategory }}>
 			{children}
 		</CategoryContext.Provider>
 	);

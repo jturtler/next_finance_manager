@@ -30,7 +30,7 @@ export default function IncomeVsExpenseReportPage({ data, periodType, startDate,
 	};
 
 	const reportDataList = (data.data).slice().sort(compareDates);
-	const { expenseList, incomeList }  = useCategory();
+	const { expenseCategoryList, incomeCategoryList }  = useCategory();
 
 
 	return (
@@ -45,8 +45,8 @@ export default function IncomeVsExpenseReportPage({ data, periodType, startDate,
 
 				<div className="bg-white shadow-md rounded-lg p-4 mb-6">
 					<h2 className="text-xl font-semibold mb-4">Income vs Expense - Stacked Bar Chart</h2>
-					<IncomeVsExpenseBarChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseList}
-						categoryIncomeList={incomeList} />
+					<IncomeVsExpenseBarChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseCategoryList}
+						categoryIncomeList={incomeCategoryList} />
 				</div>
 
 			</div>

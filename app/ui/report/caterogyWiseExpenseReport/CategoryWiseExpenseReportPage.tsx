@@ -28,7 +28,7 @@ export default function CategoryWiseExpenseReportPage({ data, periodType, startD
 	};
 
 	const reportDataList = (data.data).slice().sort(compareDates);
-	const { expenseList }  = useCategory();
+	const { expenseCategoryList }  = useCategory();
 
 	return (
 		<div className="mx-auto p-4">
@@ -36,7 +36,7 @@ export default function CategoryWiseExpenseReportPage({ data, periodType, startD
 
 			<div className="bg-white shadow-md rounded-lg p-4 mb-6">
 				<h2 className="text-xl font-semibold mb-4">Category Wise Expense Chart</h2>
-				<CategoryWiseExpenseBarChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseList}
+				<CategoryWiseExpenseBarChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseCategoryList}
 					/>
 			</div>
 			<div className="bg-white shadow-md rounded-lg p-4 mb-6">

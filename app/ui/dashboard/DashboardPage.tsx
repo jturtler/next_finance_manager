@@ -21,7 +21,7 @@ import IncomeVsExpenseReportDetails from '../report/incomeVsExpenseReport/Income
 export default function DashboardPage() {
 
 	const { user } = useAuth();
-    const { expenseList, incomeList } = useCategory();
+    const { expenseCategoryList, incomeCategoryList } = useCategory();
 	const [incomeVsExpenseChartData, setIncomeVsExpenseChartData] = useState<JSONObject | JSONObject[]>([]);
 	const [budgetVsActualChartData, setBudgetVsActualChartData] = useState<JSONObject | JSONObject[]>({});
 	const [categoryWiseExpenseChartData, setCategoryWiseExpenseChartData] = useState<JSONObject | JSONObject[]>([]);
@@ -121,8 +121,8 @@ export default function DashboardPage() {
                         startDate={dateRange.startDate} 
                         endDate={dateRange.endDate} 
                         periodType={Constant.REPORT_PERIOD_TYPE_MONTHLY} 
-                        categoryExpenseList={expenseList}
-                        categoryIncomeList={incomeList} />
+                        categoryExpenseList={expenseCategoryList}
+                        categoryIncomeList={incomeCategoryList} />
                 </div>
 
                 <div>

@@ -43,22 +43,41 @@ export const mergeArrays = (obj: { [key: string]: any[] }): any[] => {
     return Object.values(obj).flat();
 };
 
+export const sortArrayByDate  = (list: JSONObject): JSONObject[] => {
+    return list.sort((a, b) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      });
+};
+
 /** 
  * Relate to DATE 
  * */ 
-export const formatDate = ( dateStr: string) => {
-    // const month =  String(date.getMonth() + 1).padStart(2, '0');
-    // const day = String(date.getDate()).padStart(2, '0');
-    // return `${date.getFullYear()}-${month}-${day}`;
 
-    return dateStr.substring(0, 10);
+export const getStartDateOfCurrentDate = () => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1); // Set to the first day of the current month
 }
 
-// export const formatDate = (dateStr: string): string => {
-//     const dateObj = new Date(dateStr);
-const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-//     return dateObj.toLocaleDateString('en-US', options); // Example: "June 27, 2024"
-//   };
+export const formatDateObjToDbDate = ( date: Date): string => {
+    const month =  String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${day}`;
+}
+
+// export const formatDate = ( dateStr: string): string => {
+//     // const month =  String(date.getMonth() + 1).padStart(2, '0');
+//     // const day = String(date.getDate()).padStart(2, '0');
+//     // return `${date.getFullYear()}-${month}-${day}`;
+
+//     // return dateStr.substring(0, 10);
+
+// }
+
+export const formatDate = (dateStr: string): string => {
+    const dateObj = new Date(dateStr);
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    return dateObj.toLocaleDateString('en-US', options); // Example: "June 27, 2024"
+  };
 
 
 export const formatMonth = (dateStr: string): string => {
