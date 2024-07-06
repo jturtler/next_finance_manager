@@ -13,24 +13,23 @@ import { IconType } from 'react-icons';
 import { useIncome } from "@/contexts/IncomeContext";
 import Alert from "../basics/Alert";
 import { useCategory } from "@/contexts/CategoryContext";
+import { MdAssuredWorkload } from "react-icons/md";
+import { AiOutlineStock } from "react-icons/ai";
+import { FaLaptopHouse } from "react-icons/fa";
+import { GrMoney } from "react-icons/gr";
+import { MdAttachMoney } from "react-icons/md";
+import { LiaGiftSolid } from "react-icons/lia";
+import { TbReportMoney } from "react-icons/tb";
 
 const categoryIcons: Record<string, IconType> = {
-	groceries: FaShoppingCart,
-	food: FaUtensils,
-	rent: FaHome,
-	car: FaCar,
-
-	'Housing': FaHome,
-	// 'Utilities': ,
-	'Food': FaUtensils,
-	// 'Transportation',
-	// 'Entertainment',
-	'Groceries': FaShoppingCart,
-	// 'Health',
-	// 'Savings',
-	// 'Debt Payments'
+	'Business': MdAssuredWorkload,
+	'Investments': AiOutlineStock,
+	'Rental Income': FaLaptopHouse,
+	'Bonuses': GrMoney,
+	'Gifts': LiaGiftSolid,
+	'Salary': MdAttachMoney,
+	'Other Income': TbReportMoney,
 };
-
 
 export default function IncomeItem({ data }: { data: JSONObject }) {
 
@@ -51,29 +50,30 @@ export default function IncomeItem({ data }: { data: JSONObject }) {
 		}
 	}
 
-	const Icon = categoryIcons[data.category] || FaShoppingCart;
+	const Icon = categoryIcons[Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name] || FaShoppingCart;
 
 	return (
 		<>
 			{processingStatus == Constant.DELETE_BUDGET_SUCCESS && <Alert type={Constant.ALERT_TYPE_INFO} message={`Deleted successfully.`} />}
 			{processingStatus == Constant.DELETE_BUDGET_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Deleted Failed. ${error}`} />}
 
-			<div key={data._id} className="p-3 py-3 min-h-[100px] flex items-center justify-between hover:bg-blue-200 cursor-pointer">
-				<div className="flex items-center space-x-5 flex-1" onClick={() => setSelectedIncome()} >
-					<Icon className="text-green-500 shadow-md w-6 h-6" />
-					<div className="flex-1">
-					<div className="text-lg font-medium text-gray-900">{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name}</div>
-					<div className="mt-1 text-gray-500">{Utils.formatDate(data.date)}</div>
-						<div className="mt-1 text-gray-900 font-semibold">${data.amount}</div>
-					</div>
-				</div>
-				<button
-					onClick={() => handleOnDelete()}
-					className="text-red-500 hover:text-red-700 w-6"
-				>
-					<FaTrash className="w-6 h-6" />
-				</button>
-			</div>
+			<tr className="hover:bg-green-100 border border-green-300 odd:bg-green-50 even:bg-white">
+				<td className="px-4 py-2" onClick={() => setSelectedIncome()}>{Utils.formatDate(data.date)}</td>
+				<td className="px-4 py-2 flex space-x-3" onClick={() => setSelectedIncome()}>
+					<Icon className="text-green-500 w-6 h-6" />
+					<span>{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name}</span>
+				</td>
+				<td className="px-4 py-2 font-bold" onClick={() => setSelectedIncome()}>{data.amount} $</td>
+				<td className="px-4 py-2" onClick={() => setSelectedIncome()}>{data.description}</td>
+				<td className="px-4 py-2 text-center">
+					<button
+						onClick={() => handleOnDelete()}
+						className="text-red-500 hover:text-red-700 w-6"
+					>
+						<FaTrash className="w-6 h-6" />
+					</button> 
+				</td>
+			</tr>
 		</>
 	)
 }
