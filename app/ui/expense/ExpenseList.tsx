@@ -45,9 +45,9 @@ export default function ExpenseList() {
 	const filteredList = filterExpenseList();
 
 	return (
-		<>
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-5 py-3 shadow-lg bg-white">
-				<div>
+		<div className="w-full flex flex-col">
+			<div className="shadow-lg bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-5 py-3 ">
+				<div className="shadow-lg">
 					<label className="block text-gray-700 mb-2 text-sm font-bold" htmlFor='categoryFilter'>Category Filter</label>
 					<select
 						id="categoryFilter"
@@ -79,48 +79,41 @@ export default function ExpenseList() {
 					onDateChange={(date: Date | null) => { setEndDate(date) }}
 				/>
 
-			<div>
-				<label className="block text-gray-700 mb-2 text-sm font-bold">&nbsp;</label>
-				<button 
-					className=" bg-red-300 hover:bg-red-400 text-black px-10 py-2 rounded-md font-semibold"
-					onClick={() => { AppStore.setSelected(null); setSubPage(Constant.SUB_UI_ADD_FORM) }}>Add</button>
+				<div>
+					<label className="block text-gray-700 mb-2 text-sm font-bold">&nbsp;</label>
+					<button
+						className=" bg-red-300 hover:bg-red-400 text-black px-10 py-2 rounded-md font-semibold"
+						onClick={() => { AppStore.setSelected(null); setSubPage(Constant.SUB_UI_ADD_FORM) }}>Add</button>
 
-			</div>
-			<div className="italic font-bold text-yellow-600">There is {filteredList.length} item(s)</div>
+				</div>
+				<div className="italic font-bold text-yellow-600">There is {filteredList.length} item(s)</div>
 			</div>
 
-			{/* <div className="mx-auto p-3 shadow-md">
-				<div className="overflow-y-auto h-[calc(100vh-220px)]">
-					<div className="divide-y divide-gray-400 ">
-						{filteredList.map((expense: JSONObject) => (
-							<ExpenseItem key={expense._id} data={expense} />
-						))}
+			<div className="flex-1 p-3 shadow-md">
+				{/* <div className=" overflow-y-auto"> */}
+					<div className=" overflow-y-auto h-[calc(100vh-270px)]">
+						<div className="overflow-y-auto ">
+							<table className="min-w-full border border-red-800">
+								<thead className="bg-red-200">
+									<tr className="border border-red-300">
+										<th className="px-4 py-2 text-left">Date</th>
+										<th className="px-4 py-2 text-left">Category</th>
+										<th className="px-4 py-2 text-left">Amount</th>
+										<th className="px-4 py-2 text-left">Description</th>
+										<th className="px-4 py-2">#</th>
+									</tr>
+								</thead>
+								<tbody>
+									{filteredList.map((expense: JSONObject) => (
+										<ExpenseItem key={expense._id} data={expense} />
+									))}
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</div>
-			</div> */}
-
-			<div className="mx-auto p-3 shadow-md">
-				<div className="overflow-y-auto h-[calc(100vh-220px)]">
-					<table className="min-w-full border border-red-800">
-						<thead className="bg-red-200">
-							<tr className="border border-red-300">
-								<th className="px-4 py-2 text-left">Date</th>
-								<th className="px-4 py-2 text-left">Category</th>
-								<th className="px-4 py-2 text-left">Amount</th>
-								<th className="px-4 py-2 text-left">Description</th>
-								<th className="px-4 py-2">#</th>
-							</tr>
-						</thead>
-						<tbody>
-							{filteredList.map((expense: JSONObject) => (
-								<ExpenseItem key={expense._id} data={expense} />
-							))}
-						</tbody>
-					</table>
-				</div>
+				{/* </div> */}
 			</div>
-		</>
-
+		</div>
 	)
 }
 
