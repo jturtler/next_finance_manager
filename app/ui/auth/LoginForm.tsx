@@ -21,7 +21,6 @@ export default function LoginForm() {
 	
 
 	useEffect(() => {
-		console.log("============ After login");
 	  if( user != null ) {
 		setMainPage( Constant.UI_DASHBOARD_PAGE );
 	  }
@@ -40,8 +39,7 @@ export default function LoginForm() {
 	
 
 	return (
-		<div className="max-w-md mx-auto p-8 h-[calc(100vh-138px)]">
-		 {/* <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2/5"> */}
+		<div className="max-w-md mx-auto p-8">
 			<h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
 			<div className="mb-4">
@@ -89,12 +87,12 @@ export default function LoginForm() {
 				</div>
 
 				<div className="flex justify-between space-x-4">
-					<button className="grid-cols-1 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" style={{width: "45%"}} onClick={(e) => handleLoginBtn(e)} >
+					<button className="grid-cols-1 bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-600" style={{width: "45%"}} onClick={(e) => handleLoginBtn(e)} >
 						Log in
 						{loading && <FaSpinner className="ml-auto  h-5 text-gray-50" />}
 					</button>
 
-					<button onClick={() => handleCancelBtn()} className="grid-cols-1 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" style={{width: "45%"}}>
+					<button onClick={() => handleCancelBtn()} className="grid-cols-1 bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500" style={{width: "45%"}}>
 						Cancel
 					</button>
 				</div>

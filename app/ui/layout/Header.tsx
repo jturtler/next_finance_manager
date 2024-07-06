@@ -46,21 +46,26 @@ export default function Header() {
 		}
 		return icon;
 	}
-
-	return (
+	
+	// style={{backgroundColor: "#87CEEB"}}
+	return ( 
         <>
 			{( mainPage == Constant.UI_INTRO_PAGE || mainPage == Constant.UI_LOGIN_PAGE ) 
-				? <header className="w-full py-6 bg-blue-600 text-white text-center">
-					<h1 className="text-4xl font-bold">
+				? <header className="w-full py-6 text-center bg-sky-blue" >
+					<h1 className="text-4xl font-bold hidden md:block">
 						Personal Financial Management 
 					</h1>
+					<h1 className="text-2xl font-bold md:hidden">Personal Financial Management </h1>
 				</header>
-				: <header className="w-full px-3 py-3 bg-blue-600 text-white flex">
+				: <header className="w-full px-3 py-3 bg-sky-blue flex">
 					{ subPage == null && <IoMenuOutline className="text-2xl font-bold cursor-pointer hover:bg-blue-500" onClick={(e) => setIsVisible(true)} />}
 					{ subPage != null && <IoMdArrowRoundBack  className="text-2xl font-bold cursor-pointer hover:bg-blue-500" onClick={(e) => setSubPage(null) } />}
-					 <h2 className="text-xl mx-3 flex space-x-3">
-						Personal Financial Management { subTitle != "" && <> - {getIcon()} <span>{subTitle}</span></>}
-						</h2>
+					 <h2 className="text-xl mx-3 flex items-center space-x-3 font-semibold hidden md:flex">
+						<span>Personal Financial Management</span> { subTitle != "" && <>  <span> - </span> {getIcon()} <span>{subTitle}</span></>}
+					</h2>
+					<h2 className="text-xl mx-3 flex space-x-3 font-semibold md:hidden">
+						PFM { subTitle != "" && <> - {getIcon()} <span>{subTitle}</span></>}
+					</h2>
 				</header> }
 
 				<Modal isVisible={isVisible} onClose={() => setIsVisible(true)}>

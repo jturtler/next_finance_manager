@@ -48,7 +48,7 @@ export default function RegisterForm() {
 
 	return (
 		<div className="max-w-md mx-auto p-8 h-[calc(100vh-138px)]">
-			<h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+			<h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
 
 			<div className="mb-4">
 					<label
@@ -140,12 +140,12 @@ export default function RegisterForm() {
 				</div>
 
 				<div className="flex justify-between space-x-4">
-					<button className="grid-cols-1 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" style={{width: "45%"}} onClick={(e) => handleRegisterBtn(e)} >
+					<button className="grid-cols-1 bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700" style={{width: "45%"}} onClick={(e) => handleRegisterBtn(e)} >
 						Register
 						{loading && <FaSpinner className="ml-auto  h-5 text-gray-50" />}
 					</button>
 
-					<button onClick={(e) => handleCancelBtn()} className="grid-cols-1 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" style={{width: "45%"}}>
+					<button onClick={(e) => handleCancelBtn()} className="grid-cols-1 bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500" style={{width: "45%"}}>
 						Cancel
 					</button>
 				</div>
