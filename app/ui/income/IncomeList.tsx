@@ -91,7 +91,9 @@ export default function IncomeList() {
 					<span>There is {filteredList.length} item(s)</span></div>
 			</div>
 
-			<div className="flex-1 p-3 shadow-md">
+
+			{/* <!-- Table for larger screens --> */}
+			<div className="flex-1 p-3 shadow-md hidden md:block">
 				{/* <div className=" overflow-y-auto h-[calc(100vh-270px)]"> */}
 				<div className=" overflow-y-auto ">
 						<table className="min-w-full border border-green-800">
@@ -105,13 +107,20 @@ export default function IncomeList() {
 								</tr>
 							</thead>
 							<tbody>
-								{filteredList.map((expense: JSONObject) => (
-									<IncomeItem key={expense._id} data={expense} />
+								{filteredList.map((expense: JSONObject, index: number) => (
+									<IncomeItem key={expense._id} data={expense} style="large" index={index} />
 								))}
 							</tbody>
 						</table>
 					</div>
 				</div>
+
+				{/* <!-- Divs for smaller screens --> */}
+			<div className="md:hidden">
+				{filteredList.map((expense: JSONObject, index: number) => (
+					<IncomeItem key={expense._id} data={expense} index={index} style="small" />
+				))}
+			</div>
 		</div>
     )
 }

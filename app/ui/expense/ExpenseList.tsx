@@ -1,7 +1,7 @@
 /** Lists all expenses with details such as amount, start date, and end date. */
 "use client";
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ExpenseItem from "./ExpenseItem"
 import { JSONObject } from "@/lib/definations";
 import * as Constant from "@/lib/constants";
@@ -100,30 +100,38 @@ export default function ExpenseList() {
 					<span>There is {filteredList.length} item(s)</span></div>
 			</div>
 
-			<div className="flex-1 p-3 shadow-md">
+			{/* <!-- Table for larger screens --> */}
+			<div className="flex-1 p-3 shadow-md hidden md:block">
 				{/* <div className=" overflow-y-auto h-[calc(100vh-270px)]"> */}
 				<div className=" overflow-y-auto ">
 					{/* <div className="overflow-y-auto"> */}
-						<table className="min-w-full border border-red-800">
-							<thead className="bg-red-200">
-								<tr className="border border-red-300">
-									<th className="px-4 py-2 text-left">Date</th>
-									<th className="px-4 py-2 text-left">Category</th>
-									<th className="px-4 py-2 text-left">Amount</th>
-									<th className="px-4 py-2 text-left">Description</th>
-									<th className="px-4 py-2 text-left">Budget related</th>
-									<th className="px-4 py-2">#</th>
-								</tr>
-							</thead>
-							<tbody>
-								{filteredList.map((expense: JSONObject) => (
-									<ExpenseItem key={expense._id} data={expense} />
-								))}
-							</tbody>
-						</table>
-					</div>
+					<table className="min-w-full border border-red-800">
+						<thead className="bg-red-200">
+							<tr className="border border-red-300">
+								<th className="px-4 py-2 text-left">Date</th>
+								<th className="px-4 py-2 text-left">Category</th>
+								<th className="px-4 py-2 text-left">Amount</th>
+								<th className="px-4 py-2 text-left">Description</th>
+								<th className="px-4 py-2 text-left">Budget related</th>
+								<th className="px-4 py-2">#</th>
+							</tr>
+						</thead>
+						<tbody>
+							{filteredList.map((expense: JSONObject, index: number) => (
+								<ExpenseItem style="large" key={expense._id} data={expense} index={index} />
+							))}
+						</tbody>
+					</table>
 				</div>
-			{/* </div> */}
+			</div>
+
+			{/* <!-- Divs for smaller screens --> */}
+			<div className="md:hidden">
+				{filteredList.map((expense: JSONObject, index: number) => (
+					<ExpenseItem style="small" key={expense._id} data={expense} index={index} />
+				))}
+			</div>
+
 		</div>
 	)
 }

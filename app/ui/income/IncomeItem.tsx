@@ -31,9 +31,9 @@ const categoryIcons: Record<string, IconType> = {
 	'Other Income': TbReportMoney,
 };
 
-export default function IncomeItem({ data }: { data: JSONObject }) {
+export default function IncomeItem({ data, style = "large", index }: { data: JSONObject, style: string, index: number }) {
 
-	const { subPage, setSubPage } = useMainUi();
+	const { setSubPage } = useMainUi();
 	const { error, processingStatus, deleteIncome } = useIncome();
 	
 	const { categoryList } = useCategory();
@@ -51,17 +51,17 @@ export default function IncomeItem({ data }: { data: JSONObject }) {
 	}
 
 	const Icon = categoryIcons[Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name] || FaShoppingCart;
-
+	const incomeCategoryName = Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name;
 	return (
 		<>
 			{processingStatus == Constant.DELETE_BUDGET_SUCCESS && <Alert type={Constant.ALERT_TYPE_INFO} message={`Deleted successfully.`} />}
 			{processingStatus == Constant.DELETE_BUDGET_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Deleted Failed. ${error}`} />}
 
-			<tr className="hover:bg-green-100 border border-green-300 odd:bg-green-50 even:bg-white">
+			{style == "large" && <tr className="hover:bg-green-100 border border-green-300 odd:bg-green-50 even:bg-white">
 				<td className="px-4 py-2" onClick={() => setSelectedIncome()}>{Utils.formatDate(data.date)}</td>
 				<td className="px-4 py-2 flex space-x-3" onClick={() => setSelectedIncome()}>
 					<Icon className="text-green-500 w-6 h-6" />
-					<span>{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name}</span>
+					<span>{incomeCategoryName}</span>
 				</td>
 				<td className="px-4 py-2 font-bold" onClick={() => setSelectedIncome()}>{data.amount} $</td>
 				<td className="px-4 py-2" onClick={() => setSelectedIncome()}>{data.description}</td>
@@ -73,7 +73,16 @@ export default function IncomeItem({ data }: { data: JSONObject }) {
 						<FaTrash className="w-6 h-6" />
 					</button> 
 				</td>
-			</tr>
+			</tr>}
+
+			{style == "small" && <div className={`m-2  px-4 py-2 border border-green-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-green-50" }`} 
+						onClick={() => setSelectedIncome()} >
+				<div className="mb-2">{Utils.formatDate(data.date)}</div>
+				<div className="mb-2 text-lg">{incomeCategoryName}
+					{data.description && <span className="italic"> - {data.description}</span>}
+				</div>
+				<div className="font-bold">Amount: {data.amount} $</div>
+			</div>}
 		</>
 	)
 }

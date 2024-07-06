@@ -38,9 +38,9 @@ const categoryIcons: Record<string, IconType> = {
 };
 
 
-export default function ExpenseItem({ data }: { data: JSONObject }) {
+export default function ExpenseItem({ data, style = "large", index }: { data: JSONObject, style: string, index: number }) {
 
-	const { subPage, setSubPage } = useMainUi();
+	const { setSubPage } = useMainUi();
 	const { error, processingStatus, deleteExpense } = useExpense();
 
 	const { categoryList } = useCategory();
@@ -60,25 +60,26 @@ export default function ExpenseItem({ data }: { data: JSONObject }) {
 
 	const getBudgetCategory = (): string => {
 		const budgetId = data.budgetId;
-		if( budgetId !== undefined ) {
+		if (budgetId !== undefined) {
 			const foundBudget = Utils.findItemFromList(budgetList!, budgetId, "_id");
-			if( foundBudget !== null ) {
+			if (foundBudget !== null) {
 				const foundCategory = Utils.findItemFromList(categoryList!, foundBudget.categoryId, "_id");
-				return (foundCategory === null ) ? "[none]" : foundCategory.name;
+				return (foundCategory === null) ? "[none]" : foundCategory.name;
 			}
 		}
 
 		return "[none]"
 	}
-	
+
 	const Icon = categoryIcons[Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name] || FaShoppingCart;
+	const budgetCategory = getBudgetCategory();
 
 	return (
 		<>
 			{processingStatus == Constant.DELETE_BUDGET_SUCCESS && <Alert type={Constant.ALERT_TYPE_INFO} message={`Deleted successfully.`} />}
 			{processingStatus == Constant.DELETE_BUDGET_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Deleted Failed. ${error}`} />}
 
-			<tr className="hover:bg-red-100 border border-red-300 odd:bg-red-50 even:bg-white">
+			{style == "large" && <tr className="hover:bg-red-100 border border-red-300 odd:bg-red-50 even:bg-white">
 				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{Utils.formatDate(data.date)}</td>
 				<td className="px-4 py-2 flex space-x-3" onClick={() => setSelectedExpense()}>
 					<Icon className="text-red-500 w-6 h-6" />
@@ -86,16 +87,26 @@ export default function ExpenseItem({ data }: { data: JSONObject }) {
 				</td>
 				<td className="px-4 py-2 font-bold" onClick={() => setSelectedExpense()}>{data.amount} $</td>
 				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{data.description}</td>
-				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{getBudgetCategory()}</td>
+				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{budgetCategory}</td>
 				<td className="px-4 py-2 text-center">
 					<button
 						onClick={() => handleOnDelete()}
 						className="text-red-500 hover:text-red-700 w-6"
 					>
 						<FaTrash className="w-6 h-6" />
-					</button> 
+					</button>
 				</td>
-			</tr>
+			</tr>}
+
+			{style == "small" && <div className={`m-2  px-4 py-2 border border-red-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-red-50" }`} 
+						onClick={() => setSelectedExpense()} >
+				<div className="mb-2">{Utils.formatDate(data.date)}</div>
+				<div className="mb-2 text-lg">{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name}
+					{data.description && <span className="italic"> - {data.description}</span>}
+				</div>
+				<div className="font-bold">Amount: {data.amount} $</div>
+				{budgetCategory !== "[none]" && <div>{budgetCategory}</div>}
+			</div>}
 		</>
 	)
 }
