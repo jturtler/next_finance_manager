@@ -47,7 +47,7 @@ export default function ExpenseList() {
 	return (
 		<div className="w-full flex flex-col">
 			<div className="shadow-lg bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-5 py-3 ">
-				<div className="shadow-lg">
+				<div>
 					<label className="block text-gray-700 mb-2 text-sm font-bold" htmlFor='categoryFilter'>Category Filter</label>
 					<select
 						id="categoryFilter"
