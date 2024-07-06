@@ -20,6 +20,7 @@ import { MdOutlineSchool } from "react-icons/md";
 import { SiInstacart } from "react-icons/si";
 import { MdDevicesOther } from "react-icons/md";
 import { FaTheaterMasks } from "react-icons/fa";
+import { useBudget } from "@/contexts/BudgetContext";
 
 
 const categoryIcons: Record<string, IconType> = {
@@ -43,7 +44,7 @@ export default function ExpenseItem({ data }: { data: JSONObject }) {
 	const { error, processingStatus, deleteExpense } = useExpense();
 
 	const { categoryList } = useCategory();
-
+	const { budgetList } = useBudget();
 
 	const setSelectedExpense = () => {
 		AppStore.setSelected(data);
@@ -57,29 +58,25 @@ export default function ExpenseItem({ data }: { data: JSONObject }) {
 		}
 	}
 
+	const getBudgetCategory = (): string => {
+		const budgetId = data.budgetId;
+		if( budgetId !== undefined ) {
+			const foundBudget = Utils.findItemFromList(budgetList!, budgetId, "_id");
+			if( foundBudget !== null ) {
+				const foundCategory = Utils.findItemFromList(categoryList!, foundBudget.categoryId, "_id");
+				return (foundCategory === null ) ? "[none]" : foundCategory.name;
+			}
+		}
+
+		return "[none]"
+	}
+	
 	const Icon = categoryIcons[Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name] || FaShoppingCart;
 
 	return (
 		<>
 			{processingStatus == Constant.DELETE_BUDGET_SUCCESS && <Alert type={Constant.ALERT_TYPE_INFO} message={`Deleted successfully.`} />}
 			{processingStatus == Constant.DELETE_BUDGET_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Deleted Failed. ${error}`} />}
-
-			{/* <div key={data._id} className="p-3 py-3 min-h-[100px] flex items-center justify-between hover:bg-blue-200 cursor-pointer">
-				<div className="flex items-center space-x-5 flex-1" onClick={() => setSelectedExpense()} >
-					<Icon className="text-green-500 shadow-md w-6 h-6" />
-					<div className="flex-1">
-						<div className="text-lg font-medium text-gray-900">
-							{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name} - ${data.amount} </div>
-						<div className="mt-1 text-gray-500">{Utils.formatDate(data.date)}</div>
-					</div>
-				</div>
-				<button
-					onClick={() => handleOnDelete()}
-					className="text-red-500 hover:text-red-700 w-6"
-				>
-					<FaTrash className="w-6 h-6" />
-				</button> 
-			</div> */}
 
 			<tr className="hover:bg-red-100 border border-red-300 odd:bg-red-50 even:bg-white">
 				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{Utils.formatDate(data.date)}</td>
@@ -89,7 +86,7 @@ export default function ExpenseItem({ data }: { data: JSONObject }) {
 				</td>
 				<td className="px-4 py-2 font-bold" onClick={() => setSelectedExpense()}>{data.amount} $</td>
 				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{data.description}</td>
-				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{data.budgetId === undefined ? "[None]" : data.budgetId}</td>
+				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{getBudgetCategory()}</td>
 				<td className="px-4 py-2 text-center">
 					<button
 						onClick={() => handleOnDelete()}

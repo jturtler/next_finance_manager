@@ -38,8 +38,8 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 	const setValue = (propName: string, value: string | Date | null) => {
 		setErrMsg("");
 		var tempData = Utils.cloneJSONObject(expense);
-		if (value == null) {
-			tempData[propName] = "";
+		if (value == null || value == "") {
+			delete tempData[propName];
 		}
 		else if (value instanceof Date) {
 			tempData[propName] = value.toISOString();
