@@ -94,7 +94,7 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 
 
 			<div className="flex items-center justify-center ">
-				<div className="flex-1 p-6 rounded border-2 shadow-md  max-w-xl bg-white ">
+				<div className="flex-1 p-6 rounded border-2 shadow-md max-w-xl bg-white ">
 					<h2 className="text-2xl mb-4 text-center">{setTitle()}</h2>
 
 					<div>
@@ -112,6 +112,7 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 							/>
 							{(expense.amount == undefined || expense.amount == "" ) && <><br /><span className="text-sm italic text-red-600 ml-1">This field is required</span></>}
 						</div>
+
 						<div className="mb-4">
 							<label className="block text-gray-700 mb-2" htmlFor="category">
 								Category <span className="text-red-600 ml-1">*</span>
@@ -129,6 +130,7 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 							</select>
 							{(expense.categoryId == undefined || expense.categoryId == "" ) && <><br /><span className="text-sm italic text-red-600 ml-1">This field is required</span></>}
 						</div>
+
 						<div className="mb-4">
 							<label className="block text-gray-700 mb-2" htmlFor="date">
 								Date <span className="text-red-600 ml-1">*</span>
@@ -141,6 +143,7 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 							/>
 							{(expense.date == undefined || expense.date == "" ) && <><br /><span className="text-sm italic text-red-600 ml-1">This field is required</span></>}
 						</div>
+						
 						<div className="mb-4">
 							<label className="block text-gray-700 mb-2" htmlFor="description">
 								Description

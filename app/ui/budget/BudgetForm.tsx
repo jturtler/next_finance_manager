@@ -17,18 +17,6 @@ import LoadingIcon from '../basics/LoadingIcon';
 
 export default function BudgetForm({ data = {} as JSONObject }) {
 
-	// const categories = [
-	// 	'Housing',
-	// 	'Utilities',
-	// 	'Food',
-	// 	'Transportation',
-	// 	'Entertainment',
-	// 	'Groceries',
-	// 	'Health',
-	// 	'Savings',
-	// 	'Debt Payments'
-	// ];
-
 	const { setSubPage } = useMainUi();
 	const { categoryList } = useCategory();
 	const { userId, processingStatus, setProcessingStatus, error, saveBudget, newBudget } = useBudget();
@@ -39,7 +27,7 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 
 	useEffect(() => {
 		if( processingStatus === Constant.SAVE_BUDGET_SUCCESS ) {
-			if( continueCreateNew) {
+			if( continueCreateNew ) {
 				handleOnReset();
 			}
 			else {
@@ -96,14 +84,14 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 
 
 	return (
-		<div className="h-[calc(100vh-120px)] mt-5 overflow-x-auto  border-gray-400 ">
+		<div className="overflow-x-auto border-blue-100 ">
 
 			{processingStatus == Constant.SAVE_BUDGET_SUCCESS && <Alert type={Constant.ALERT_TYPE_INFO} message={`Saved successfully.`} />}
 			{processingStatus == Constant.SAVE_BUDGET_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Saving data is failed. ${error}`} />}
 			{errMsg !== "" && <Alert type={Constant.ALERT_TYPE_ERROR} message={`${errMsg}`} />}
 
 			<div className="flex items-center justify-center ">
-				<div className="p-6 rounded border-2 bg-slate-100 shadow-md w-full max-w-md">
+				<div className="flex-1 p-6 rounded border-2 shadow-md max-w-xl bg-white ">
 					<h2 className="text-2xl mb-4 text-center">{setTitle()}</h2>
 
 					<div>
@@ -121,6 +109,7 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 							/>
 							{(budget.amount == undefined || budget.amount == "" ) && <><br /><span className="text-sm italic text-red-600 ml-1">This field is required</span></>}
 						</div>
+
 						<div className="mb-4">
 							<label className="block text-gray-700 mb-2" htmlFor="category">
 								Category <span className="text-red-600 ml-1">*</span>
@@ -151,6 +140,7 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 								{(budget.startDate == undefined || budget.startDate == "" ) && <><br /><span className="text-sm italic text-red-600 ml-1">This field is required</span></>}
 							</div>
 						</div>
+
 						<div className="mb-4">
 							<div className="mb-4">
 							<label className="block text-gray-700 mb-2" htmlFor="endDate">
@@ -185,7 +175,7 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 								onClick={(e) => handleOnSave(e, false)}
 							>
 								Save And Go back
-							</button>	
+							</button>
 							<button
 								type="submit"
 								className="bg-blue-500 w-2/6 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -195,8 +185,8 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 							</button>
 							<button
 								type="button"
-								onClick={() => setBudget(data)}
-								className="bg-gray-500 w-2/6 text-white px-4 py-2 rounded hover:bg-gray-600"
+								onClick={() => handleOnReset()}
+								className="bg-gray-500 w-1/6 text-white px-4 py-2 rounded hover:bg-gray-600"
 							>
 								Reset
 							</button>

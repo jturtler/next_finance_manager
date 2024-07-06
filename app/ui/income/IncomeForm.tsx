@@ -85,11 +85,11 @@ export default function IncomeForm({ data = {} as JSONObject }) {
 	}
 
 	const setTitle = () => {
-		return (income._id != undefined) ? "Edit income" : "Add a new Income";
+		return (income._id != undefined) ? "Edit Income" : "Add a new Income";
 	}
 
 	return (
-		<div className="h-[calc(100vh-120px)] mt-5 overflow-x-auto  border-gray-400 ">
+		<div className="overflow-x-auto border-gray-400 ">
 			
 			{processingStatus == Constant.SAVE_EXPENSE_SUCCESS && <Alert type={Constant.ALERT_TYPE_INFO} message={`Saved successfully.`} />}
 			{processingStatus == Constant.SAVE_EXPENSE_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Saving data is failed. ${error}`} />}
@@ -97,7 +97,7 @@ export default function IncomeForm({ data = {} as JSONObject }) {
 			{errMsg !== "" && <Alert type={Constant.ALERT_TYPE_ERROR} message={`${errMsg}`} />}
 			
 			<div className="flex items-center justify-center">
-				<div className="flex-1 p-6 rounded border-2 bg-slate-100 shadow-md  max-w-xl">
+				<div className="flex-1 p-6 rounded border-2 bg-white shadow-md  max-w-xl">
 					<h2 className="text-2xl mb-4 text-center">{setTitle()}</h2>
 
 					<div>

@@ -61,7 +61,7 @@ export const getStartDateOfCurrentDate = () => {
 export const formatDateObjToDbDate = ( date: Date): string => {
     const month =  String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    return `${date.getFullYear()}-${month}-${day}`;
+    return `${date.getFullYear()}-${month}-${day}T00:00:00`;
 }
 
 // export const formatDate = ( dateStr: string): string => {
