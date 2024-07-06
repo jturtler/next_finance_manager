@@ -87,9 +87,9 @@ export default function ExpenseItem({ data }: { data: JSONObject }) {
 					<Icon className="text-red-500 w-6 h-6" />
 					<span>{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name}</span>
 				</td>
-				{/* <td className="px-4 py-2 font-bold" onClick={() => setSelectedExpense()}>{data.amount.toFixed(2)}$</td> */}
 				<td className="px-4 py-2 font-bold" onClick={() => setSelectedExpense()}>{data.amount} $</td>
 				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{data.description}</td>
+				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{data.budgetId === undefined ? "[None]" : data.budgetId}</td>
 				<td className="px-4 py-2 text-center">
 					<button
 						onClick={() => handleOnDelete()}
