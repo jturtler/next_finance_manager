@@ -135,7 +135,7 @@ export default function ReportPage() {
 
 	return (
 
-		<div className="mx-auto p-4 min-h-[calc(100vh-100px)]">
+		<div className="mx-auto p-4 min-h-[calc(100vh-100px)] bg-purple-50">
 			<h1 className="text-2xl font-bold mb-4">Reports</h1>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				<ReportTypeSelector

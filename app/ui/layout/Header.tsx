@@ -13,7 +13,6 @@ import { FaChartBar } from "react-icons/fa";
 import { GiMoneyStack } from "react-icons/gi";
 import { GiReceiveMoney } from "react-icons/gi";
 import { GiCash } from "react-icons/gi";
-import { GiCoinflip } from "react-icons/gi";
 import { GiTwoCoins } from "react-icons/gi";
 
 
