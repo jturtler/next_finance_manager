@@ -134,16 +134,19 @@ export default function ReportPage() {
 	}
 
 	return (
-
-		<div className="mx-auto p-4 min-h-[calc(100vh-100px)] bg-purple-50">
-			<h1 className="text-2xl font-bold mb-4">Reports</h1>
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+		
+		<div className="p-4">
+		<div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+			{/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"> */}
+			<div className="flex flex-col">
 				<ReportTypeSelector
 					label="Report Type"
 					id="reportType"
 					selectedReportType={selectedReportType}
 					onReportTypeChange={(value) => {setChartData({}); setSelectedReportType(value)}} />
-
+			</div>
+			
+			<div className="flex flex-col">
 				{/* For date range */}
 				<CustomDatePicker
 					label="Start Date"
@@ -151,21 +154,24 @@ export default function ReportPage() {
 					selectedDate={startDate}
 					onDateChange={(date: Date | null) => {setChartData({}); setStartDate(date)}}
 				/>
+			</div>
 
+			<div className="flex flex-col">
 				<CustomDatePicker
 					label="End Date"
 					id="endDate"
 					selectedDate={endDate}
 					onDateChange={(date: Date | null) => {setChartData({}); setEndDate(date)}}
 				/>
+			</div>
 
 				{(selectedReportType == Constant.REPORT_TYPE_INCOME_VS_EXPENSE 
 					|| selectedReportType == Constant.REPORT_TYPE_CATEGORY_WISE_EXPENSE
 				)
-					&& <PeriodTypeSelector selectedPeriodType={selectedPeriodType}
+					&& <div className="flex flex-col"><PeriodTypeSelector selectedPeriodType={selectedPeriodType}
 					label="Period Type"
 					id="periodType"
-					onPeriodTypeChange={(value) => {setChartData({}); setSelectedPeriodType(value)}} /> }
+					onPeriodTypeChange={(value) => {setChartData({}); setSelectedPeriodType(value)}} /></div> }
 
 				{/* For monthly period */}
 				{/* {selectedPeriodType == Constant.REPORT_PERIOD_TYPE_MONTHLY && <>
@@ -212,17 +218,23 @@ export default function ReportPage() {
 				</>} */}
 
 
-				<button className="px-4 py-2  bg-green-700 rounded text-white" onClick={() => generateReport()} >Generate chart</button>
+				<div className="flex flex-col">
+					<span>&nbsp;</span>
+					<button className="px-4 py-2  bg-green-700 rounded text-white" onClick={() => generateReport()} >Generate chart</button>
+				</div>
 
 			</div>
 
 
 
 
-			{!Utils.isEmptyJSON(chartData) && <ReportDisplay reportType={selectedReportType} data={chartData} startDate={startDate} endDate={endDate} periodType={selectedPeriodType} />}
+			{!Utils.isEmptyJSON(chartData) && <div className="mb-4">
+					<ReportDisplay reportType={selectedReportType} data={chartData} startDate={startDate} endDate={endDate} periodType={selectedPeriodType} />
+				</div>}
 
 
 		</div>
+		//  </div>
 	);
 };
 

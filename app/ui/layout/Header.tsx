@@ -63,10 +63,10 @@ export default function Header() {
 					{ subPage == null && <IoMenuOutline className="text-2xl font-bold cursor-pointer hover:bg-blue-500" onClick={(e) => setIsVisible(true)} />}
 					{ subPage != null && <IoMdArrowRoundBack  className="text-2xl font-bold cursor-pointer hover:bg-blue-500" onClick={(e) => setSubPage(null) } />}
 					 <h2 className="text-xl mx-3 flex items-center space-x-3 font-semibold hidden md:flex">
-					 	<GiTwoCoins size={30} className="text-yellow-200" /> { subTitle != "" && <span>{subTitle}</span>}
+					 	<GiTwoCoins size={30} className="text-yellow-200" /> <span>Personal Financial Management</span> <span>-</span> { subTitle != "" && <span>{subTitle}</span>}
 					</h2>
 					<h2 className="text-xl mx-3 flex space-x-3 font-semibold md:hidden">
-						PFM { subTitle != "" && <> - {getIcon()} <span>{subTitle}</span></>}
+					<GiTwoCoins size={30} className="text-yellow-200" /> { subTitle != "" && <span>{subTitle}</span>}
 					</h2>
 				</header> }
 
