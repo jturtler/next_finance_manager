@@ -12,6 +12,7 @@ const config: Config = {
         'living-coral': '#FF6F61',
         'ultra-violet': '#6A0DAD',
         'pale-yellow': '#FFFACD',
+        'bright-yellow': '#FFD700',
         'mint-green': '#98FF98',
         'sky-blue': '#87CEEB',
         'soft-pink': '#FFB6C1',

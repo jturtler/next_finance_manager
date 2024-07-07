@@ -12,6 +12,9 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { FaChartBar } from "react-icons/fa";
 import { GiMoneyStack } from "react-icons/gi";
 import { GiReceiveMoney } from "react-icons/gi";
+import { GiCash } from "react-icons/gi";
+import { GiCoinflip } from "react-icons/gi";
+import { GiTwoCoins } from "react-icons/gi";
 
 
 export default function Header() {
@@ -52,16 +55,16 @@ export default function Header() {
         <>
 			{( mainPage == Constant.UI_INTRO_PAGE || mainPage == Constant.UI_LOGIN_PAGE ) 
 				? <header className="w-full py-6 text-center bg-sky-blue" >
-					<h1 className="text-4xl font-bold hidden md:block">
-						Personal Financial Management 
+					<h1 className="text-4xl font-bold flex items-center justify-center space-x-3 hidden md:flex">
+						<GiTwoCoins size={60} className="text-yellow-200" /><span>Personal Financial Management</span> 
 					</h1>
-					<h1 className="text-2xl font-bold md:hidden">Personal Financial Management </h1>
+					<h1 className="text-2xl font-bold md:hidden flex flex-row items-center px-8"><GiTwoCoins size={60} className="text-yellow-200" /><span className="flex-1">Personal Financial Management</span></h1>
 				</header>
 				: <header className="w-full px-3 py-3 bg-sky-blue flex">
 					{ subPage == null && <IoMenuOutline className="text-2xl font-bold cursor-pointer hover:bg-blue-500" onClick={(e) => setIsVisible(true)} />}
 					{ subPage != null && <IoMdArrowRoundBack  className="text-2xl font-bold cursor-pointer hover:bg-blue-500" onClick={(e) => setSubPage(null) } />}
 					 <h2 className="text-xl mx-3 flex items-center space-x-3 font-semibold hidden md:flex">
-						<span>Personal Financial Management</span> { subTitle != "" && <>  <span> - </span> {getIcon()} <span>{subTitle}</span></>}
+					 	<GiTwoCoins size={30} className="text-yellow-200" /> { subTitle != "" && <span>{subTitle}</span>}
 					</h2>
 					<h2 className="text-xl mx-3 flex space-x-3 font-semibold md:hidden">
 						PFM { subTitle != "" && <> - {getIcon()} <span>{subTitle}</span></>}
