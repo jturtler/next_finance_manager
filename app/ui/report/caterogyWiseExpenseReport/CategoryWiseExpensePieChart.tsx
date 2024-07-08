@@ -89,25 +89,18 @@ const renderActiveShape = (props: any) => {
 
 
 export default function CategoryWiseExpensePieChart({ data }) {
-	const [activeIndex, setActiveIndex] = useState(0);
-	const onPieEnter = useCallback(
-		(_, index) => {
-		setActiveIndex(index);
-		},
-		[setActiveIndex]
-	);
+	// const [activeIndex, setActiveIndex] = useState(0);
+	// const onPieEnter = useCallback(
+	// 	(_, index) => {
+	// 	setActiveIndex(index);
+	// 	},
+	// 	[setActiveIndex]
+	// );
 
-	// transformedData = {
-	// 	"totalExpense": 1721,
-	// 	"categories": [
-	// 		{
-	// 			"category": "Education",
-	// 			"totalAmount": 500
-	// 		},
-	// 		...
-	// 	],
-	// 	"year": 2024
-	// }
+	const renderCustomLabel = ({ category, value }) => {
+		return `${category}: ${value.toFixed(2)} $`;
+	};
+		
 	const transformData = (dataList: JSONObject): JSONObject[] => {
 		let resultList: JSONObject[] = [];
 
@@ -143,15 +136,17 @@ export default function CategoryWiseExpensePieChart({ data }) {
 			<ResponsiveContainer width="100%" height={400}>
 				<PieChart>
 					<Pie
-						activeIndex={activeIndex}
-						activeShape={renderActiveShape}
+						// activeIndex={activeIndex}
+						// activeShape={renderActiveShape}
 						data={transformedData}
 						cx="50%"
 						cy="50%"
 						innerRadius={70}
 						outerRadius={100}
 						dataKey="totalAmount"
-						onMouseEnter={onPieEnter}
+						labelLine={true}
+        				label={renderCustomLabel}
+						// onMouseEnter={onPieEnter}
 					>
 						{transformedData.map((item, idx) =>
 							<Cell key={`cell-outer-${idx}`} fill={ReportService.expenseColors[idx % ReportService.expenseColors.length]} />
