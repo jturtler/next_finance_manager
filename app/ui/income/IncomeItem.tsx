@@ -35,7 +35,7 @@ export default function IncomeItem({ data, style = "large", index }: { data: JSO
 
 	const { setSubPage } = useMainUi();
 	const { error, processingStatus, deleteIncome } = useIncome();
-	
+
 	const { categoryList } = useCategory();
 
 	const setSelectedIncome = () => {
@@ -73,18 +73,24 @@ export default function IncomeItem({ data, style = "large", index }: { data: JSO
 						className="text-red-500 hover:text-red-700 w-6"
 					>
 						<FaTrash className="w-6 h-6" />
-					</button> 
+					</button>
 				</td>
 			</tr>}
 
-			{style == "small" && <div className={`m-2 cursor-pointer px-4 py-2 border border-green-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-green-50" }`} 
-						onClick={() => setSelectedIncome()} >
-				<div className="mb-2">{dateStr}</div>
-				<div className="mb-2 text-lg">{incomeCategoryName}
-					{data.description && <span className="italic"> - {data.description}</span>}
+
+			{style == "small" && <div className={`m-2 flex px-4 py-2 items-center border border-green-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-green-50"}`}
+				onClick={() => setSelectedIncome()} >
+				<Icon className="text-green-500 w-6 h-6 mr-5" />
+				<div className="flex-1">
+					<div className="mb-2">{dateStr}</div>
+					<div className="mb-2 italic text-sm flex flex-row space-x-3">
+						<span>{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name}</span>
+						{data.description && <> <span>-</span> <span>{data.description}</span></>}
+					</div>
+					<div className="font-bold">Amount: {data.amount} $</div>
 				</div>
-				<div className="font-bold">Amount: {data.amount} $</div>
 			</div>}
+
 		</>
 	)
 }
