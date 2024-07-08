@@ -38,7 +38,7 @@ export default function IncomeVsExpenseReportPage({ data, periodType, startDate,
 		<div className="mx-auto p-4">
 			<h1 className="text-2xl font-bold mb-4">Income vs Expense Report</h1>
 
-			<div className="grid grid-cols-2">
+			<div className="grid grid-cols-1 md:grid-cols-2">
 			<div className="p-4 mb-6">
 				<h2 className="text-xl font-semibold mb-4">Trend Chart</h2>
 					<IncomeVsExpenseTrendChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} />

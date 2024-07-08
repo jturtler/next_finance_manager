@@ -156,7 +156,7 @@ export default function IncomeVsExpenseTrendChart({ data, periodType, startDate,
 				/>
 				<YAxis />
 				<Tooltip content={<CustomTooltip />} />
-				<Legend />
+				{/* <Legend /> */}
 				<Line type="monotone" dataKey="totalIncome" stroke={ReportService.incomeColors[0]} strokeWidth={2} activeDot={{ r: 8 }} />
 				<Line type="monotone" dataKey="totalExpense" stroke={ReportService.expenseColors[0]} strokeWidth={2} activeDot={{ r: 8 }} />
 				<Line type="monotone" dataKey="remainingAmount" stroke={ReportService.COLORS[4]} strokeWidth={2} activeDot={{ r: 8 }} />
