@@ -72,7 +72,8 @@ export default function BudgetItem({ data, style = "large", index }: { data: JSO
 
 	const Icon = categoryIcons[Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name] || FaShoppingCart;
 	const budgetCategoryName = Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name;
-	const dateRange = `${Utils.formatDate(data.startDate)} - ${Utils.formatDate(data.endDate)}`;
+	const startDateStr = Utils.formatDisplayDateObj(Utils.convertDateStrToObj(data.startDate));
+	const endDateStr = Utils.formatDisplayDateObj(Utils.convertDateStrToObj(data.endDate));
 
 	return (
 		<>
@@ -80,7 +81,7 @@ export default function BudgetItem({ data, style = "large", index }: { data: JSO
 			{processingStatus == Constant.DELETE_BUDGET_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Deleted Failed. ${error}`} />}
 
 			{style == "large" && <tr className="hover:bg-blue-100 border border-blue-300 odd:bg-blue-50 even:bg-white">
-				<td className="px-4 py-2" onClick={() => setSelectedBudget()}>{dateRange} </td>
+				<td className="px-4 py-2" onClick={() => setSelectedBudget()}>{startDateStr} - {endDateStr}</td>
 				<td className="px-4 py-2 flex space-x-3" onClick={() => setSelectedBudget()}>
 					<Icon className="text-blue-500 w-6 h-6" />
 					<span>{budgetCategoryName}</span>
@@ -99,7 +100,7 @@ export default function BudgetItem({ data, style = "large", index }: { data: JSO
 
 			{style == "small" && <div className={`m-2  px-4 py-2 border border-blue-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-blue-50" }`} 
 						onClick={() => setSelectedBudget()} >
-				<div className="mb-2">{dateRange}</div>
+				<div className="mb-2">{startDateStr} - {endDateStr}</div>
 				<div className="mb-2 text-lg">{budgetCategoryName}
 					{data.description && <span className="italic"> - {data.description}</span>}
 				</div>

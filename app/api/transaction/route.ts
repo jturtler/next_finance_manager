@@ -74,26 +74,18 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest, { params }) {
-	// const payload: JSONObject = await request.json();
-
-	// // { new: true } --> return the modified document rather than the original one
-	// const newTransaction = await Transaction.findByIdAndUpdate(payload._id, {
-	// 	$set: payload,
-	// 	$currentDate: { updatedAt: true }, // Update the `updatedAt` timestamp
-	// }, { new: true, runValidators: true });
-
-
-	// return NextResponse.json(newTransaction, { status: 200 })
 
 	const payload: JSONObject = await request.json();
 
 	// Destructure budgetId out of the updateData, if exists
 	const { budgetId, ...updateFields } = payload;
+	
+    updateFields.date = Utils.formatDateObjToDbDate(Utils.convertDateStrToObj(payload.date));
 
 	// Create the update object
 	let updateObject = {
 		$set: updateFields,
-		$currentDate: { updatedAt: true }, // Update the `updatedAt` timestamp
+		// $currentDate: { updatedAt: true }, // Update the `updatedAt` timestamp
 	};
 
 	// Conditionally add $unset to remove budgetId if needed

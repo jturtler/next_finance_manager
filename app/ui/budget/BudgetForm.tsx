@@ -44,7 +44,7 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 			tempData[propName] = "";
 		}
 		else if (value instanceof Date) {
-			tempData[propName] = value.toISOString();
+			tempData[propName] = Utils.formatDateObjToDbDate(value);
 		}
 		else {
 			tempData[propName] = value;
@@ -81,6 +81,9 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 	const setTitle = () => {
 		return (budget._id != undefined) ? "Edit budget" : "Add a new Budget";
 	}
+
+	let startDateStr: Date | null = ( budget.startDate !== undefined ) ?Utils.convertDateStrToObj(budget.startDate) : null;
+	let endDateStr: Date | null  = ( budget.endDate !== undefined ) ? Utils.convertDateStrToObj(budget.endDate) : null;
 
 
 	return (
@@ -127,13 +130,15 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 							{(budget.categoryId == undefined || budget.categoryId == "" ) && <><br /><span className="text-sm italic text-red-600 ml-1">This field is required</span></>}
 						</div>
 						<div className="mb-4">
+				
+
 							<div className="mb-4">
 							<label className="block text-gray-700 mb-2" htmlFor="startDate">
 									Start Date <span className="text-red-600 ml-1">*</span>
 								</label>
 								<DateField
 									id="startDate"
-									value={budget.startDate}
+									value={startDateStr}
 									handleOnChange={(date) => setValue("startDate", date)}
 									className="w-full p-2 border border-gray-300 rounded"
 								/>
@@ -148,7 +153,7 @@ export default function BudgetForm({ data = {} as JSONObject }) {
 								</label>
 								<DateField
 									id="endDate"
-									value={budget.startDate}
+									value={endDateStr}
 									handleOnChange={(date) => setValue("endDate", date)}
 									className="w-full p-2 border border-gray-300 rounded"
 								/>

@@ -27,7 +27,7 @@ export default function IncomeForm({ data = {} as JSONObject }) {
 	const [errMsg, setErrMsg] = useState("");
 
 	useEffect(() => {
-		if( processingStatus === Constant.SAVE_EXPENSE_SUCCESS ) {
+		if( processingStatus === Constant.SAVE_INCOME_SUCCESS ) {
 			if( continueCreateNew) {
 				handleOnReset();
 			}
@@ -45,12 +45,12 @@ export default function IncomeForm({ data = {} as JSONObject }) {
 			tempData[propName] = "";
 		}
 		else if (value instanceof Date) {
-			tempData[propName] = value.toISOString();
+			tempData[propName] = Utils.formatDateObjToDbDate(value);
 		}
 		else {
 			tempData[propName] = value;
 		}
-
+		
 		setIncome(tempData);
 	}
 
@@ -58,10 +58,6 @@ export default function IncomeForm({ data = {} as JSONObject }) {
 		event.preventDefault();
 		if( checkValidation() ) {
 			income.userId = userId;
-			// if( income.date === undefined ) {
-			// 	income.date = (new Date()).toISOString();
-			// }
-	
 			setContinueCreateNew(isContinue);
 	
 			saveIncome(income);

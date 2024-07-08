@@ -73,6 +73,7 @@ export default function ExpenseItem({ data, style = "large", index }: { data: JS
 
 	const Icon = categoryIcons[Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name] || FaShoppingCart;
 	const budgetCategory = getBudgetCategory();
+	const dateStr = Utils.formatDisplayDateObj(Utils.convertDateStrToObj(data.date));
 
 	return (
 		<>
@@ -80,7 +81,7 @@ export default function ExpenseItem({ data, style = "large", index }: { data: JS
 			{processingStatus == Constant.DELETE_BUDGET_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Deleted Failed. ${error}`} />}
 
 			{style == "large" && <tr className="hover:bg-red-100 border border-red-300 odd:bg-red-50 even:bg-white">
-				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{Utils.formatDate(data.date)}</td>
+				<td className="px-4 py-2" onClick={() => setSelectedExpense()}>{dateStr}</td>
 				<td className="px-4 py-2 flex space-x-3" onClick={() => setSelectedExpense()}>
 					<Icon className="text-red-500 w-6 h-6" />
 					<span>{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name}</span>
@@ -98,9 +99,9 @@ export default function ExpenseItem({ data, style = "large", index }: { data: JS
 				</td>
 			</tr>}
 
-			{style == "small" && <div className={`m-2  px-4 py-2 border border-red-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-red-50" }`} 
+			{style == "small" && <div className={`m-2 px-4 py-2 border border-red-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-red-50" }`} 
 						onClick={() => setSelectedExpense()} >
-				<div className="mb-2">{Utils.formatDate(data.date)}</div>
+				<div className="mb-2">{dateStr}</div>
 				<div className="mb-2 text-lg">{Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name}
 					{data.description && <span className="italic"> - {data.description}</span>}
 				</div>

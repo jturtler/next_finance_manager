@@ -1,35 +1,10 @@
-import { JSONObject } from "@/lib/definations";
-import React from "react";
-import {
-	AreaChart,
-	Area,
-	XAxis,
-	YAxis,
-	CartesianGrid,
-	Tooltip,
-	ResponsiveContainer
-} from "recharts";
+import { JSONObject } from '@/lib/definations';
+import React from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import * as ReportService from "@/lib/services/reportService";
 import * as Constant from "@/lib/constants";
 import * as Utils from "@/lib/utils";
 
-
-// data = [
-// {
-// 	"totalIncome": 0,
-// 	"totalExpense": 343,
-// 	"date": {
-// 		"year": 2023,
-// 		"month": 5,  //"quarter": 3 // undefined
-// 	},
-// 	"expense": {
-// 		"Insurance": 250,
-// 		"Transportation": 23,
-// 		"Entertainment": 70
-// 	}
-// }
-// ...
-// ]
 
 const getIntroOfArea = (label) => {
 
@@ -40,35 +15,42 @@ const getIntroOfArea = (label) => {
 	//   return "Expense";
 	// }
 	return label;
-  };
+};
 
 const CustomTooltip = ({ active, payload, label }: any) => {
 	if (active && payload && payload.length) {
 		let incomeDscrp = "";
 		let expenseDescript = "";
-		for( var i=0; i<payload.length; i++ ) {
-			if(payload[i].dataKey == "totalIncome") {
+		let remainingDescript = "";
+		
+		for (var i = 0; i < payload.length; i++) {
+			if (payload[i].dataKey == "totalIncome") {
 				incomeDscrp = `Income: ${payload[i].payload.totalIncome}$`;
 			}
-			else if(payload[i].dataKey == "totalExpense") {
+			else if (payload[i].dataKey == "totalExpense") {
 				expenseDescript = `Expense: ${payload[i].payload.totalExpense}$`;
+			}
+			else if (payload[i].dataKey == "remainingAmount") {
+				remainingDescript = `Remaining: ${payload[i].payload.remainingAmount.toFixed(2)}$`;
 			}
 		}
 
 		return (
 			<div className="custom-tooltip bg-white p-3 border border-gray-300">
-			<p className="label">{`${label}`}</p>
-			{/* <p className="intro">{getIntroOfArea(label)}</p> */}
-			<p className="desc text-green-600">{`${incomeDscrp}`}</p>
-			<p className="desc text-red-600">{`${expenseDescript}`}</p>
+				<p className="label">{`${label}`}</p>
+				{/* <p className="intro">{getIntroOfArea(label)}</p> */}
+				<p className="desc text-green-600">{`${incomeDscrp}`}</p>
+				<p className="desc text-red-600">{`${expenseDescript}`}</p>
+				<p className="desc text-purple-600">{`${remainingDescript}`}</p>
 			</div>
 		);
 	}
-  
-	return null;
-  };
 
-export default function IncomeVsExpenseAreaChart({ data, periodType, startDate, endDate }) {
+	return null;
+};
+
+export default function IncomeVsExpenseTrendChart({ data, periodType, startDate, endDate }) {
+
 
 	const transformData = (): JSONObject[] => {
 
@@ -99,6 +81,7 @@ export default function IncomeVsExpenseAreaChart({ data, periodType, startDate, 
 			if (found.length > 0) {
 				resultItem["totalIncome"] = found[0].totalIncome;
 				resultItem["totalExpense"] = found[0].totalExpense;
+				resultItem["remainingAmount"] = found[0].totalIncome - found[0].totalExpense;
 			}
 
 			result.push(resultItem);
@@ -119,6 +102,7 @@ export default function IncomeVsExpenseAreaChart({ data, periodType, startDate, 
 			if (found.length > 0) {
 				resultItem["totalIncome"] = found[0].totalIncome;
 				resultItem["totalExpense"] = found[0].totalExpense;
+				resultItem["remainingAmount"] = found[0].totalIncome - found[0].totalExpense;
 			}
 
 			result.push(resultItem);
@@ -138,6 +122,7 @@ export default function IncomeVsExpenseAreaChart({ data, periodType, startDate, 
 			if (found.length > 0) {
 				resultItem["totalIncome"] = found[0].totalIncome;
 				resultItem["totalExpense"] = found[0].totalExpense;
+				resultItem["remainingAmount"] = ( found[0].totalIncome - found[0].totalExpense );
 			}
 
 			result.push(resultItem);
@@ -145,13 +130,13 @@ export default function IncomeVsExpenseAreaChart({ data, periodType, startDate, 
 
 		return result;
 	}
-	
+
 	const transformedReportData = transformData();
-	
+
 
 	return (
 		<ResponsiveContainer width="100%" height={500}>
-			<AreaChart
+			<LineChart
 				width={500}
 				height={400}
 				data={transformedReportData}
@@ -160,8 +145,7 @@ export default function IncomeVsExpenseAreaChart({ data, periodType, startDate, 
 					right: 30,
 					left: 20,
 					bottom: 35,
-				}}
-			>
+				}}>
 				<CartesianGrid strokeDasharray="3 3" />
 				<XAxis
 					dataKey="name"
@@ -171,24 +155,15 @@ export default function IncomeVsExpenseAreaChart({ data, periodType, startDate, 
 					tick={{ fontSize: 12 }}
 				/>
 				<YAxis />
-				<Tooltip content={<CustomTooltip />}/>
-				<Area
-					type="monotone"
-					dataKey="totalIncome"
-					stackId="1"
-					stroke="#8884d8"
-					fill={ReportService.incomeColors[0]} 
-				/>
-				<Area
-					type="monotone"
-					dataKey="totalExpense"
-					stackId="2"
-					stroke="#82ca9d"
-					fill={ReportService.expenseColors[0]} 
-				/>
+				<Tooltip content={<CustomTooltip />} />
+				<Legend />
+				<Line type="monotone" dataKey="totalIncome" stroke={ReportService.incomeColors[0]} strokeWidth={2} activeDot={{ r: 8 }} />
+				<Line type="monotone" dataKey="totalExpense" stroke={ReportService.expenseColors[0]} strokeWidth={2} activeDot={{ r: 8 }} />
+				<Line type="monotone" dataKey="remainingAmount" stroke={ReportService.COLORS[4]} strokeWidth={2} activeDot={{ r: 8 }} />
 
-				
-			</AreaChart>
+			</LineChart>
+
 		</ResponsiveContainer>
 	);
-}
+
+};

@@ -52,13 +52,15 @@ export default function IncomeItem({ data, style = "large", index }: { data: JSO
 
 	const Icon = categoryIcons[Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name] || FaShoppingCart;
 	const incomeCategoryName = Utils.findItemFromList(categoryList!, data.categoryId, "_id")!.name;
+	const dateStr = Utils.formatDisplayDateObj(Utils.convertDateStrToObj(data.date));
+
 	return (
 		<>
 			{processingStatus == Constant.DELETE_BUDGET_SUCCESS && <Alert type={Constant.ALERT_TYPE_INFO} message={`Deleted successfully.`} />}
 			{processingStatus == Constant.DELETE_BUDGET_FAILURE && <Alert type={Constant.ALERT_TYPE_ERROR} message={`Deleted Failed. ${error}`} />}
 
-			{style == "large" && <tr className="hover:bg-green-100 border border-green-300 odd:bg-green-50 even:bg-white">
-				<td className="px-4 py-2" onClick={() => setSelectedIncome()}>{Utils.formatDate(data.date)}</td>
+			{style == "large" && <tr className="cursor-pointer hover:bg-green-100 border border-green-300 odd:bg-green-50 even:bg-white">
+				<td className="px-4 py-2" onClick={() => setSelectedIncome()}>{dateStr}</td>
 				<td className="px-4 py-2 flex space-x-3" onClick={() => setSelectedIncome()}>
 					<Icon className="text-green-500 w-6 h-6" />
 					<span>{incomeCategoryName}</span>
@@ -75,9 +77,9 @@ export default function IncomeItem({ data, style = "large", index }: { data: JSO
 				</td>
 			</tr>}
 
-			{style == "small" && <div className={`m-2  px-4 py-2 border border-green-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-green-50" }`} 
+			{style == "small" && <div className={`m-2 cursor-pointer px-4 py-2 border border-green-200 rounded ${index % 2 === 0 ? "bg-white" : "bg-green-50" }`} 
 						onClick={() => setSelectedIncome()} >
-				<div className="mb-2">{Utils.formatDate(data.date)}</div>
+				<div className="mb-2">{dateStr}</div>
 				<div className="mb-2 text-lg">{incomeCategoryName}
 					{data.description && <span className="italic"> - {data.description}</span>}
 				</div>

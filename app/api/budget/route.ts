@@ -37,8 +37,11 @@ export async function POST( request: NextRequest ) {
 export async function PUT( request: NextRequest, {params} ) {
     const payload: JSONObject = await request.json();
 
+    payload.startDate = Utils.formatDateObjToDbDate(Utils.convertDateStrToObj(payload.startDate));
+    payload.endDate = Utils.formatDateObjToDbDate(Utils.convertDateStrToObj(payload.endDate));
+
     // { new: true } --> return the modified document rather than the original one
-    const newBudget = await Budget.findByIdAndUpdate(payload._id, payload, { new: true });
+    const newBudget = await Budget.findByIdAndUpdate(payload._id, payload, { new: true, runValidators: true });
 
     return NextResponse.json(newBudget, {status: 200 })
 }

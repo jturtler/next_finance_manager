@@ -42,7 +42,7 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 			delete tempData[propName];
 		}
 		else if (value instanceof Date) {
-			tempData[propName] = value.toISOString();
+			tempData[propName] = Utils.formatDateObjToDbDate(value);
 		}
 		else {
 			tempData[propName] = value;
@@ -55,10 +55,6 @@ export default function ExpenseForm({ data = {} as JSONObject }) {
 		event.preventDefault();
 		if( checkValidation() ) {
 			expense.userId = userId;
-			// if( expense.date === undefined ) {
-			// 	expense.date = (new Date()).toISOString();
-			// }
-
 			setContinueCreateNew(isContinue);
 
 			saveExpense(expense);

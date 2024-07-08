@@ -2,8 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // Need to import this lib so that the calendar is showed  properly
 
-// export default function DateField({id = "", disabled = false, handleOnChange = (date: Date | null) => { }, value = new Date(), ...rest}) {
-export default function DateField({id = "", disabled = false, handleOnChange = (date: Date | null) => { }, value = null, ...rest}) {
+export default function DateField({id = "", disabled = false, handleOnChange = (date: Date | null) => { }, value, ...rest}) {
 
     const [selectedDate, setSelectedDate] = useState<Date | null>(value);
 

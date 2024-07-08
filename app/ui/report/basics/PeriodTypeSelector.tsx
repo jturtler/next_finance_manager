@@ -11,7 +11,7 @@ const reportTypes = [
 const PeriodTypeSelector = ({ label, id,  selectedPeriodType, onPeriodTypeChange }) => {
 	return (
 		<div>
-			<label className="block text-gray-700 mb-2 text-sm" htmlFor={id}>{label}</label>
+			<label className="font-bold block text-gray-700 mb-2 text-sm" htmlFor={id}>{label}</label>
 			<select
 				id={id}
 				value={selectedPeriodType}

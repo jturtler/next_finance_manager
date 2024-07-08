@@ -2,6 +2,8 @@ import { UI_BUDGET_PAGE } from './constants';
 import { Document } from "mongoose";
 import { JSONObject, Message } from "@/lib/definations";
 import * as Constant from "@/lib/constants";
+
+
 /** 
  * Relate to JSONObject 
  * */ 
@@ -58,26 +60,31 @@ export const getStartDateOfCurrentDate = () => {
     return new Date(now.getFullYear(), now.getMonth(), 1); // Set to the first day of the current month
 }
 
+export const convertDateStrToObj = ( dateStr: string) : Date => {
+    const year = parseInt(dateStr.substring(0, 4), 10);
+    const month = parseInt(dateStr.substring(5,7), 10) - 1;
+    const day = parseInt(dateStr.substring(8,10), 10);
+    
+    return new Date( year, month, day );
+}
+
 export const formatDateObjToDbDate = ( date: Date): string => {
     const month =  String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    return `${date.getFullYear()}-${month}-${day}T00:00:00`;
+
+    return `${date.getFullYear()}-${month}-${day}T00:00:00.000Z`;
 }
 
-// export const formatDate = ( dateStr: string): string => {
-//     // const month =  String(date.getMonth() + 1).padStart(2, '0');
-//     // const day = String(date.getDate()).padStart(2, '0');
-//     // return `${date.getFullYear()}-${month}-${day}`;
-
-//     // return dateStr.substring(0, 10);
-
-// }
-
-export const formatDate = (dateStr: string): string => {
-    const dateObj = new Date(dateStr);
+export const formatDisplayDateObj = (dateObj: Date): string => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
     return dateObj.toLocaleDateString('en-US', options); // Example: "June 27, 2024"
-  };
+};
+
+export const formatDisplayDate = (dateStr: string): string => {
+    const dateObj = new Date(dateStr.split("T")[0]);
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    return dateObj.toLocaleDateString('en-US', options); // Example: "June 27, 2024"
+};
 
 
 export const formatMonth = (dateStr: string): string => {

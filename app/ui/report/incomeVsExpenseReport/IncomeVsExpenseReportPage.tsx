@@ -6,6 +6,7 @@ import { useCategory } from '@/contexts/CategoryContext';
 import IncomeVsExpenseAreaChart from './IncomeVsExpenseAreaChart';
 import * as Constant from "@/lib/constants";
 import IncomeVsExpenseReportDetails from './IncomeVsExpenseReportDetails';
+import IncomeVsExpenseTrendChart from './incomeVsExpenseTrendChart';
 
 export default function IncomeVsExpenseReportPage({ data, periodType, startDate, endDate }) {
 
@@ -38,20 +39,25 @@ export default function IncomeVsExpenseReportPage({ data, periodType, startDate,
 			<h1 className="text-2xl font-bold mb-4">Income vs Expense Report</h1>
 
 			<div className="grid grid-cols-2">
+			<div className="p-4 mb-6">
+				<h2 className="text-xl font-semibold mb-4">Trend Chart</h2>
+					<IncomeVsExpenseTrendChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} />
+				</div>
+
 				<div className="bg-white shadow-md rounded-lg p-4 mb-6">
-					<h2 className="text-xl font-semibold mb-4">Income vs Expense - Area Chart</h2>
+					<h2 className="text-xl font-semibold mb-4">Area Chart</h2>
 					<IncomeVsExpenseAreaChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} />
 				</div>
 
 				<div className="bg-white shadow-md rounded-lg p-4 mb-6">
-					<h2 className="text-xl font-semibold mb-4">Income vs Expense - Stacked Bar Chart</h2>
+					<h2 className="text-xl font-semibold mb-4">Stacked Bar Chart</h2>
 					<IncomeVsExpenseBarChart data={reportDataList} startDate={startDate} endDate={endDate} periodType={periodType} categoryExpenseList={expenseCategoryList}
 						categoryIncomeList={incomeCategoryList} />
 				</div>
 
 			</div>
 
-			<div className="bg-white shadow-md rounded-lg p-4">
+			<div className="bg-white p-4">
 				<IncomeVsExpenseReportDetails data={reportDataList} />
 			</div>
 		</div>
