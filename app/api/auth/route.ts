@@ -30,12 +30,12 @@ export async function GET(request, { params }) {
 			}
 		}
 
-		const result = (userList.length > 0) ? Utils.converDbObjectToJson( userList ) : [{}] as JSONObject[];
+		const result = (userList.length > 0) ? Utils.converDbObjectToJson( userList ) : [] as JSONObject[];
 		
 		return NextResponse.json(result, { status: 200 });
 	}
 
-	return NextResponse.json([{}], { status: 200 });
+	return NextResponse.json([], { status: 200 });
 }
 
 export async function POST(request: NextRequest) {
